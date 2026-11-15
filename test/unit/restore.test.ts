@@ -1144,6 +1144,37 @@ events(Event.ON_RESTORE, () => {
         then("`restore.onrestore` setter exists", () => {
           expect(hasSetter(restore, Event.ON_RESTORE)).toBeTrue();
         });
+
+        and("`restore.onrestore` setter exists", () => {
+          and("`restore.onrestore` is set to a listener", () => {
+            let onrestore: jasmine.Spy;
+            beforeEach(() => {
+              onrestore = jasmine.createSpy("onrestore");
+              restore.onrestore = onrestore;
+            });
+
+            when("`restore.restore` is invoked", () => {
+              beforeEach(() => {
+                restore.restore();
+              });
+
+              then("`restore.onrestore` is called once", () => {
+                expect(onrestore).toHaveBeenCalledTimes(1);
+              });
+            });
+
+            when("`restore.restore` is invoked twice", () => {
+              beforeEach(() => {
+                restore.restore();
+                restore.restore();
+              });
+
+              then("`restore.onrestore` is called twice", () => {
+                expect(onrestore).toHaveBeenCalledTimes(2);
+              });
+            });
+          });
+        });
       });
     });
   });
