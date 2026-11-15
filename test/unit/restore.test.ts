@@ -128,6 +128,10 @@ composition(Composition.TEMPLATE, () => {
             then("`div.icon` has `role` `button`", () => {
               expect(div.getAttribute("role")).toBe("button");
             });
+
+            then("`div.icon` has `aria-label` `Restore`", () => {
+              expect(div.getAttribute("aria-label")).toBe("Restore");
+            });
           });
         });
       });
@@ -1546,8 +1550,37 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onrestore` is called once", () => {
-            expect(onrestore).toHaveBeenCalledTimes(1);
+          then("`restore.status` is `Status.PRESSED`", () => {
+            expect(restore.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = restore.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onrestore` is not called", () => {
+            expect(onrestore).not.toHaveBeenCalled();
+          });
+
+          and("user holds `Key.ENTER` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.ENTER,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`restore.status` is `Status.PRESSED`", () => {
+              expect(restore.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onrestore` is not called", () => {
+              expect(onrestore).not.toHaveBeenCalled();
+            });
           });
         });
 
@@ -1562,8 +1595,37 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onrestore` is called once", () => {
-            expect(onrestore).toHaveBeenCalledTimes(1);
+          then("`restore.status` is `Status.PRESSED`", () => {
+            expect(restore.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = restore.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onrestore` is not called", () => {
+            expect(onrestore).not.toHaveBeenCalled();
+          });
+
+          and("user holds `Key.SPACE` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.SPACE,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`restore.status` is `Status.PRESSED`", () => {
+              expect(restore.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onrestore` is not called", () => {
+              expect(onrestore).not.toHaveBeenCalled();
+            });
           });
         });
 
@@ -1576,8 +1638,376 @@ gesture(Gesture.KEYDOWN, () => {
             icon.dispatchEvent(new KeyboardEvent(Gesture.KEYDOWN, { key: "a" }));
           });
 
+          then("`restore.status` is `Status.RELEASED`", () => {
+            expect(restore.status).toEqual(Status.RELEASED);
+          });
+
           then("`onrestore` is not called", () => {
             expect(onrestore).not.toHaveBeenCalled();
+          });
+        });
+
+        when("user presses `Key.ENTER` on `div` with class `icon`, and the press can be cancelled", () => {
+          let keydown: KeyboardEvent;
+          beforeEach(() => {
+            keydown = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.ENTER,
+              cancelable: true
+            });
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(keydown);
+          });
+
+          then("the default action of the key is prevented", () => {
+            expect(keydown.defaultPrevented).toBeTrue();
+          });
+        });
+
+        when("user presses `Key.SPACE` on `div` with class `icon`, and the press can be cancelled", () => {
+          let keydown: KeyboardEvent;
+          beforeEach(() => {
+            keydown = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.SPACE,
+              cancelable: true
+            });
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(keydown);
+          });
+
+          then("the default action of the key is prevented: the page does not scroll", () => {
+            expect(keydown.defaultPrevented).toBeTrue();
+          });
+        });
+
+        when("user presses another key on `div` with class `icon`, and the press can be cancelled", () => {
+          let keydown: KeyboardEvent;
+          beforeEach(() => {
+            keydown = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: "a",
+              cancelable: true
+            });
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(keydown);
+          });
+
+          then("the default action of the key is not prevented", () => {
+            expect(keydown.defaultPrevented).toBeFalse();
+          });
+        });
+      });
+    });
+  });
+});
+
+gesture(Gesture.KEYUP, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        and("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onrestore: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            restore.onrestore = onrestore;
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
+            );
+          });
+
+          when("user lifts `Key.ENTER` from `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+              );
+            });
+
+            then("`onrestore` is called once", () => {
+              expect(onrestore).toHaveBeenCalledTimes(1);
+            });
+
+            then("`restore.status` is `Status.RELEASED`", () => {
+              expect(restore.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = restore.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            and("user lifts `Key.ENTER` from `div` with class `icon`", () => {
+              beforeEach(() => {
+                const icon = restore.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+                );
+              });
+
+              then("`onrestore` is called once", () => {
+                expect(onrestore).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+
+          and("user holds `Key.ENTER` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.ENTER,
+                  repeat: true
+                })
+              );
+            });
+
+            when("user lifts `Key.ENTER` from `div` with class `icon`", () => {
+              beforeEach(() => {
+                const icon = restore.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+                );
+              });
+
+              then("`onrestore` is called once", () => {
+                expect(onrestore).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+
+          when("user lifts another key from `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new KeyboardEvent(Gesture.KEYUP, { key: "a" }));
+            });
+
+            then("`onrestore` is not called", () => {
+              expect(onrestore).not.toHaveBeenCalled();
+            });
+
+            then("`restore.status` is `Status.PRESSED`", () => {
+              expect(restore.status).toEqual(Status.PRESSED);
+            });
+          });
+        });
+
+        when("user lifts `Key.ENTER` from `div` with class `icon`, without pressing it there", () => {
+          let onrestore: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            restore.onrestore = onrestore;
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+            );
+          });
+
+          then("`onrestore` is not called", () => {
+            expect(onrestore).not.toHaveBeenCalled();
+          });
+        });
+
+        and("user presses `Key.SPACE` on `div` with class `icon`", () => {
+          let onrestore: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            restore.onrestore = onrestore;
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.SPACE })
+            );
+          });
+
+          when("user lifts `Key.SPACE` from `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+              );
+            });
+
+            then("`onrestore` is called once", () => {
+              expect(onrestore).toHaveBeenCalledTimes(1);
+            });
+
+            then("`restore.status` is `Status.RELEASED`", () => {
+              expect(restore.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = restore.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            and("user lifts `Key.SPACE` from `div` with class `icon`", () => {
+              beforeEach(() => {
+                const icon = restore.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+                );
+              });
+
+              then("`onrestore` is called once", () => {
+                expect(onrestore).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+
+          and("user holds `Key.SPACE` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.SPACE,
+                  repeat: true
+                })
+              );
+            });
+
+            when("user lifts `Key.SPACE` from `div` with class `icon`", () => {
+              beforeEach(() => {
+                const icon = restore.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+                );
+              });
+
+              then("`onrestore` is called once", () => {
+                expect(onrestore).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+
+          when("user lifts another key from `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new KeyboardEvent(Gesture.KEYUP, { key: "a" }));
+            });
+
+            then("`onrestore` is not called", () => {
+              expect(onrestore).not.toHaveBeenCalled();
+            });
+
+            then("`restore.status` is `Status.PRESSED`", () => {
+              expect(restore.status).toEqual(Status.PRESSED);
+            });
+          });
+        });
+
+        when("user lifts `Key.SPACE` from `div` with class `icon`, without pressing it there", () => {
+          let onrestore: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            restore.onrestore = onrestore;
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+            );
+          });
+
+          then("`onrestore` is not called", () => {
+            expect(onrestore).not.toHaveBeenCalled();
+          });
+        });
+      });
+    });
+  });
+});
+
+gesture(Gesture.BLUR, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        when("`div` with class `icon` loses focus", () => {
+          beforeEach(() => {
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(new FocusEvent(Gesture.BLUR));
+          });
+
+          then("`restore.status` is `Status.RELEASED`", () => {
+            expect(restore.status).toEqual(Status.RELEASED);
+          });
+        });
+
+        and("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onrestore: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            restore.onrestore = onrestore;
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
+            );
+          });
+
+          when("`div` with class `icon` loses focus", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new FocusEvent(Gesture.BLUR));
+            });
+
+            then("`restore.status` is `Status.RELEASED`", () => {
+              expect(restore.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = restore.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            then("`onrestore` is not called", () => {
+              expect(onrestore).not.toHaveBeenCalled();
+            });
+
+            and("user lifts `Key.ENTER` from `div` with class `icon`", () => {
+              beforeEach(() => {
+                const icon = restore.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+                );
+              });
+
+              then("`onrestore` is not called", () => {
+                expect(onrestore).not.toHaveBeenCalled();
+              });
+            });
           });
         });
       });

@@ -126,7 +126,9 @@ export const Gesture = {
   POINTERUP: "pointerup",
   POINTERLEAVE: "pointerleave",
   CLICK: "click",
-  KEYDOWN: "keydown"
+  KEYDOWN: "keydown",
+  KEYUP: "keyup",
+  BLUR: "blur"
 } as const;
 /**
  * @category Metadata

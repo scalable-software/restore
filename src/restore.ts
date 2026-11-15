@@ -333,6 +333,15 @@ export class Restore extends Component implements Meta {
       Gesture.KEYDOWN,
       this._handleIconKeydown
     );
+    this.elements.icon?.addEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRestore
+    );
+    this.elements.icon?.addEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
+    );
+    this.elements.icon?.addEventListener(Gesture.BLUR, this._handleIconBlur);
   };
 
   /**
@@ -358,6 +367,15 @@ export class Restore extends Component implements Meta {
       Gesture.KEYDOWN,
       this._handleIconKeydown
     );
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRestore
+    );
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
+    );
+    this.elements.icon?.removeEventListener(Gesture.BLUR, this._handleIconBlur);
   };
 
   /**
@@ -389,10 +407,40 @@ export class Restore extends Component implements Meta {
   private _handleIconClick = () => this.restore();
 
   /**
-   * Handles a key pressed on the icon: Enter or Space requests restoring
+   * Handles a key pressed on the icon: Enter or Space presses the restore button,
+   * and the page does not scroll
    * @category Gesture
    * @hidden
    */
-  private _handleIconKeydown = (event: KeyboardEvent) =>
-    (event.key === Key.ENTER || event.key === Key.SPACE) && this.restore();
+  private _handleIconKeydown = (event: KeyboardEvent) => {
+    if (event.key !== Key.ENTER && event.key !== Key.SPACE) return;
+    event.preventDefault();
+    this._press();
+  };
+
+  /**
+   * Handles a key lifted from the icon: Enter or Space requests restoring
+   * when the restore button is pressed
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeyupRestore = (event: KeyboardEvent) =>
+    (event.key === Key.ENTER || event.key === Key.SPACE) &&
+    this.status === Status.PRESSED &&
+    this.restore();
+
+  /**
+   * Handles a key lifted from the icon: Enter or Space releases the restore button
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeyupRelease = (event: KeyboardEvent) =>
+    (event.key === Key.ENTER || event.key === Key.SPACE) && this._release();
+
+  /**
+   * Handles the icon losing focus: releases the restore button
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconBlur = () => this._release();
 }
