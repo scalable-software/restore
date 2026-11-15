@@ -240,10 +240,12 @@ export class Restore extends Component implements Meta {
   };
 
   /**
-   * Request restoring. It changes no state.
+   * Request restoring. It changes no state: every call dispatches `onrestore`.
    * @category Operations
    */
-  public restore = () => {};
+  public restore = () => {
+    this._dispatch(Event.ON_RESTORE);
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
