@@ -98,3 +98,12 @@ svg {
   background-color: var(--button-pressed-background-color);
   border-color: var(--button-pressed-border-color);
 }
+
+/* =======================
+  State Appearance: Flat
+======================= */
+:host([appearance="flat"]) .icon {
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
