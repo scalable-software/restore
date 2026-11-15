@@ -615,15 +615,32 @@ state(State.APPEARANCE, () => {
           });
 
           when("`appearance` attribute is set to `invalid`", () => {
+            let error: Error;
             beforeEach(async () => {
-              await jasmine.spyOnGlobalErrorsAsync(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
                 restore.setAttribute(Attributes.APPEARANCE, "invalid");
+                error = reported.calls.mostRecent()?.args[0];
               });
             });
 
             then("`appearance` attribute does not exist", () => {
               expect(restore.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
             });
+
+            then("`restore.appearance` is `Appearance.FLOATING`", () => {
+              expect(restore.appearance).toBe(Appearance.FLOATING);
+            });
+
+            then("an error is reported", () => {
+              expect(error).toBeDefined();
+            });
+
+            then(
+              "error message contains 'Invalid appearance value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid appearance value: invalid");
+              }
+            );
           });
 
           when("`restore.appearance` is set to `invalid`", () => {
