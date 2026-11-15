@@ -7,7 +7,8 @@ import {
   Appearance,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Key
 } from "@scalable.software/restore";
 
 // Tag
@@ -355,6 +356,39 @@ metadata(Metadata.GESTURE, () => {
 
         then("`Gesture.KEYDOWN` is `keydown`", () => {
           expect(Gesture.KEYDOWN).toBe("keydown");
+        });
+      });
+    });
+  });
+});
+
+// Key
+metadata(Metadata.KEY, () => {
+  and("Key imported", () => {
+    then("Key is defined", () => {
+      expect(Key).toBeDefined();
+    });
+
+    and("Key is defined", () => {
+      then("Key is an object", () => {
+        expect(typeof Key).toBe("object");
+      });
+
+      when("Key is an object", () => {
+        then("`Key.ENTER` exists", () => {
+          expect(Key.ENTER).toBeDefined();
+        });
+
+        then("`Key.ENTER` is `Enter`", () => {
+          expect(Key.ENTER).toBe("Enter");
+        });
+
+        then("`Key.SPACE` exists", () => {
+          expect(Key.SPACE).toBeDefined();
+        });
+
+        then("`Key.SPACE` is a space", () => {
+          expect(Key.SPACE).toBe(" ");
         });
       });
     });
