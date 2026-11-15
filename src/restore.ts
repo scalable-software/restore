@@ -270,6 +270,15 @@ export class Restore extends Component implements Meta {
   };
 
   /**
+   * Release the restore button: only a gesture does this
+   * @category Operations
+   * @hidden
+   */
+  private _release = () => {
+    this.status = Status.RELEASED;
+  };
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
@@ -310,6 +319,10 @@ export class Restore extends Component implements Meta {
       Gesture.POINTERDOWN,
       this._handleIconPointerdown
     );
+    this.elements.icon?.addEventListener(
+      Gesture.POINTERUP,
+      this._handleIconPointerup
+    );
   };
 
   /**
@@ -322,6 +335,10 @@ export class Restore extends Component implements Meta {
       Gesture.POINTERDOWN,
       this._handleIconPointerdown
     );
+    this.elements.icon?.removeEventListener(
+      Gesture.POINTERUP,
+      this._handleIconPointerup
+    );
   };
 
   /**
@@ -330,4 +347,11 @@ export class Restore extends Component implements Meta {
    * @hidden
    */
   private _handleIconPointerdown = () => this._press();
+
+  /**
+   * Handles the pointer being lifted from the icon: releases the restore button
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconPointerup = () => this._release();
 }
