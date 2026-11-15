@@ -101,6 +101,13 @@ export class Restore extends Component implements Meta {
   private _onshow: EventListener | null = null;
 
   /**
+   * onrestore triggered each time restoring is requested
+   * @category Events
+   * @hidden
+   */
+  private _onrestore: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -201,6 +208,19 @@ export class Restore extends Component implements Meta {
    */
   public set onshow(handler: EventListener | null) {
     this._onshow = this._subscribe(Event.ON_SHOW, this._onshow, handler);
+  }
+
+  /**
+   * Triggered via `.restore()`, each time it is called
+   * @event
+   * @category Events
+   */
+  public set onrestore(handler: EventListener | null) {
+    this._onrestore = this._subscribe(
+      Event.ON_RESTORE,
+      this._onrestore,
+      handler
+    );
   }
 
   /**
