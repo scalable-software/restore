@@ -174,7 +174,9 @@ export class Restore extends Component implements Meta {
    * Show the restore button when it is hidden
    * @category Operations
    */
-  public show = () => {};
+  public show = () => {
+    this.visibility = Visibility.VISIBLE;
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
