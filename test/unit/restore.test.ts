@@ -258,6 +258,33 @@ state(State.VISIBILITY, () => {
               expect(restore.visibility).toBe(Visibility.HIDDEN);
             });
           });
+
+          when("`restore.visibility` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                restore.visibility = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
+            });
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
+            });
+
+            then(
+              "error message contains 'Invalid visibility value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid visibility value: invalid");
+              }
+            );
+
+            then("`restore.visibility` is `Visibility.VISIBLE`", () => {
+              expect(restore.visibility).toBe(Visibility.VISIBLE);
+            });
+          });
         });
       });
     });
