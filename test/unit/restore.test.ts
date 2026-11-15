@@ -6,7 +6,8 @@ import {
   CSS,
   Attributes,
   State,
-  Visibility
+  Visibility,
+  Status
 } from "@scalable.software/restore";
 
 // Configuration
@@ -377,6 +378,43 @@ state(State.VISIBILITY, () => {
             then("`restore.visibility` is `Visibility.VISIBLE`", () => {
               expect(restore.visibility).toBe(Visibility.VISIBLE);
             });
+          });
+        });
+      });
+    });
+  });
+});
+
+state(State.STATUS, () => {
+  given("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.status` getter exists", () => {
+          expect(restore.status).toBeDefined();
+        });
+
+        when("`restore.status` getter exists", () => {
+          then("`restore.status` is `Status.RELEASED`", () => {
+            expect(restore.status).toBe(Status.RELEASED);
           });
         });
       });

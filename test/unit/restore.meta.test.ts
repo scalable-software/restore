@@ -3,6 +3,7 @@ import {
   Attributes,
   State,
   Visibility,
+  Status,
   Operation,
   Event,
   Gesture
@@ -41,6 +42,14 @@ metadata(Metadata.ATTRIBUTES, () => {
         then("`Attributes.VISIBILITY` is `visibility`", () => {
           expect(Attributes.VISIBILITY).toBe("visibility");
         });
+
+        then("`Attributes.STATUS` exists", () => {
+          expect(Attributes.STATUS).toBeDefined();
+        });
+
+        then("`Attributes.STATUS` is `status`", () => {
+          expect(Attributes.STATUS).toBe("status");
+        });
       });
     });
   });
@@ -73,6 +82,14 @@ metadata(Metadata.STATE, () => {
         then("`State.VISIBILITY` is `visibility`", () => {
           expect(State.VISIBILITY).toBe("visibility");
         });
+
+        then("`State.STATUS` exists", () => {
+          expect(State.STATUS).toBeDefined();
+        });
+
+        then("`State.STATUS` is `status`", () => {
+          expect(State.STATUS).toBe("status");
+        });
       });
     });
   });
@@ -104,6 +121,38 @@ metadata(State.VISIBILITY, () => {
 
         then("`Visibility.HIDDEN` is `hidden`", () => {
           expect(Visibility.HIDDEN).toBe("hidden");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.STATUS, () => {
+  and("Status imported", () => {
+    then("Status is defined", () => {
+      expect(Status).toBeDefined();
+    });
+
+    and("Status is defined", () => {
+      then("Status is an object", () => {
+        expect(typeof Status).toBe("object");
+      });
+
+      when("Status is an object", () => {
+        then("`Status.RELEASED` exists", () => {
+          expect(Status.RELEASED).toBeDefined();
+        });
+
+        then("`Status.RELEASED` is `released`", () => {
+          expect(Status.RELEASED).toBe("released");
+        });
+
+        then("`Status.PRESSED` exists", () => {
+          expect(Status.PRESSED).toBeDefined();
+        });
+
+        then("`Status.PRESSED` is `pressed`", () => {
+          expect(Status.PRESSED).toBe("pressed");
         });
       });
     });
