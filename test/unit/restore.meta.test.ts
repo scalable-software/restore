@@ -357,6 +357,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.KEYDOWN` is `keydown`", () => {
           expect(Gesture.KEYDOWN).toBe("keydown");
         });
+
+        then("`Gesture.KEYUP` exists", () => {
+          expect(Gesture.KEYUP).toBeDefined();
+        });
+
+        then("`Gesture.KEYUP` is `keyup`", () => {
+          expect(Gesture.KEYUP).toBe("keyup");
+        });
       });
     });
   });
