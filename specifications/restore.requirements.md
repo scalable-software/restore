@@ -18,7 +18,9 @@ panel or dialog to be restored, without building and styling that control themse
   pressed while it is held, the request is made when it is let go, and moving away before
   letting go makes no request.
 - Showing or hiding the control depending on context.
-- Operating the control with a pointer or with the keyboard.
+- Operating the control with a pointer or with the keyboard, with the same press and release
+  under both.
+- Being announced by name to assistive technology.
 - Standing alone, or sitting flat inside another surface such as a taskbar.
 - Visual feedback on interaction and consistency with the device colour theme.
 
@@ -68,3 +70,9 @@ request with the Enter key or the space bar, so that I do not need a pointing de
 
 As a **host application**, when I place the control inside a taskbar, I want it to appear
 without its own border and shadow, so that the taskbar reads as one surface.
+
+### STORY: Accessible Operation
+
+As an **end user** who works with the keyboard or a screen reader, I want the control to be
+announced by what it does, and to look and act under the keyboard as it does under the
+pointer, so that I can use it with the same confidence.
