@@ -1170,6 +1170,28 @@ events(Event.ON_RESTORE, () => {
               });
             });
 
+            and("`restore.onrestore` is set to a new listener", () => {
+              let onrestore2: jasmine.Spy;
+              beforeEach(() => {
+                onrestore2 = jasmine.createSpy("onrestore2");
+                restore.onrestore = onrestore2;
+              });
+
+              when("`restore.restore` is invoked", () => {
+                beforeEach(() => {
+                  restore.restore();
+                });
+
+                then("old `restore.onrestore` is not called", () => {
+                  expect(onrestore).not.toHaveBeenCalled();
+                });
+
+                then("new `restore.onrestore` is called", () => {
+                  expect(onrestore2).toHaveBeenCalled();
+                });
+              });
+            });
+
             when("`restore.restore` is invoked twice", () => {
               beforeEach(() => {
                 restore.restore();
