@@ -6,6 +6,6 @@ export {
   Operation,
   Event,
   Gesture
-} from "./component.meta.js";
+} from "./restore.meta.js";
 
-export { component } from "./component.js";
+export { Restore } from "./restore.js";

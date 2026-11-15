@@ -1,16 +1,16 @@
 /**
- * @module Component
+ * @module Restore
  */
 
 // Base Component
 import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
-// Component Metadata
-import { Tag, CSS, Attributes } from "./component.meta.js";
+// Restore Metadata
+import { Tag, CSS, Attributes } from "./restore.meta.js";
 
 /**
- * Optional Configuration: required for components with custom layout and style
+ * Optional Configuration: required for restores with custom layout and style
  * @category Configuration
  */
 export const configuration: Configuration = {
@@ -24,11 +24,11 @@ export const configuration: Configuration = {
 } as const;
 
 /**
- * @category Component
+ * @category Restore
  */
-export class component extends Component {
+export class Restore extends Component {
   /**
-   * The tag name of the component
+   * The tag name of the restore
    * @category Configuration
    */
   public static get Tag() {
@@ -44,7 +44,7 @@ export class component extends Component {
   }
 
   /**
-   * Helper function to load the component template into DOM
+   * Helper function to load the restore template into DOM
    * @category Utility
    */
   public static Template = new Template(import.meta.url);
@@ -78,7 +78,7 @@ export class component extends Component {
   protected _cache = () => {};
 
   /**
-   * Initialize component attributes with default values
+   * Initialize restore attributes with default values
    * @category Configuration
    * @hidden
    */

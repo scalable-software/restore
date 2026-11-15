@@ -1,5 +1,5 @@
-import { component } from "@scalable.software/component.template";
+import { Restore } from "@scalable.software/restore";
 
-await component.Template.load("component.template.html");
+await Restore.Template.load("restore.template.html");
 
-customElements.define(component.Tag, component);
+customElements.define(Restore.Tag, Restore);

@@ -1,7 +1,7 @@
 {
-  "name": "@scalable.software/component.template",
-  "version": "0.4.0",
-  "description": "A template for creating web components using Scalable.Software standards and practices.",
+  "name": "@scalable.software/restore",
+  "version": "0.0.1",
+  "description": "A theme-aware web component that lets users ask for a window to be restored to its normal size, and can be shown or hidden, while emitting an event for each request.",
   "keywords": [
     "web component"
   ],
@@ -26,14 +26,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scalable-software/component.template.git"
+    "url": "git+https://github.com/scalable-software/restore.git"
   },
   "author": "Scalable.Software",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
-    "url": "https://github.com/scalable-software/component.template/issues"
+    "url": "https://github.com/scalable-software/restore/issues"
   },
-  "homepage": "https://github.com/scalable-software/component.template#readme",
+  "homepage": "https://github.com/scalable-software/restore#readme",
   "devDependencies": {
     "@types/jasmine": "^5.1.4",
     "@web/dev-server": "^0.4.6",
