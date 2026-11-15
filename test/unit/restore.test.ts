@@ -1161,6 +1161,13 @@ events(Event.ON_RESTORE, () => {
               then("`restore.onrestore` is called once", () => {
                 expect(onrestore).toHaveBeenCalledTimes(1);
               });
+
+              then("`restore.onrestore` is called with no detail", () => {
+                const message = { detail: null };
+                expect(onrestore).toHaveBeenCalledWith(
+                  jasmine.objectContaining(message)
+                );
+              });
             });
 
             when("`restore.restore` is invoked twice", () => {
