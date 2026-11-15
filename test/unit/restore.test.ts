@@ -774,6 +774,29 @@ operation(Operation.SHOW, () => {
         then("`restore.show` method exists", () => {
           expect(restore.show).toBeDefined();
         });
+
+        and("`restore.show` method exists", () => {
+          and("`restore.visibility` is `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              restore.visibility = Visibility.HIDDEN;
+            });
+
+            when("invoking `restore.show`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = restore.show();
+              });
+
+              then("`restore.visibility` is `Visibility.VISIBLE`", () => {
+                expect(restore.visibility).toBe(Visibility.VISIBLE);
+              });
+
+              then("`restore.show` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+        });
       });
     });
   });
