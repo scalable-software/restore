@@ -57,8 +57,9 @@ This walkthrough uses the demo page, right after installation.
 3. **Press and move away**: hold the pointer down on the button, move off it, then let go.
    - `status` returns to `released` when the pointer leaves, and no `onrestore` is logged.
 
-4. **Use the keyboard**: press Tab until the button has focus, then press Enter or the space bar.
-   - Each press logs one `onrestore`.
+4. **Use the keyboard**: press Tab until the button has focus, then press and let go of Enter or the space bar.
+   - While the key is held down, `status` is `pressed`; one `onrestore` is logged when the key is let go.
+   - Press the key, then press Tab before letting go: `status` returns to `released`, and no `onrestore` is logged.
 
 5. **Call an operation**: click `restore` in the **Operations** group, or in the console:
 
@@ -89,7 +90,7 @@ For more details on **States**, **Operations**, and **Events**, consult the sect
 
 ### 3.1 Composition
 
-- **Template** (`restore.template.html`): Defines DOM structure — a `.icon` container, which can take focus and has the role of a button, holding the SVG icon of two overlapping squares.
+- **Template** (`restore.template.html`): Defines DOM structure — a `.icon` container, which can take focus, has the role of a button and is announced as "Restore", holding the SVG icon of two overlapping squares.
 - **Style** (`restore.style.css`): Encapsulates appearance, including the pressed look, the flat appearance, hover effects, and light/dark theme adaptation.
 - **Class** (`restore.ts`): Extends the base component class to handle lifecycle hooks, Shadow DOM creation, attribute reflection, and event dispatch.
 
@@ -108,7 +109,7 @@ Lifecycle methods are implemented in the base class and extended by the **Restor
   2. Clones the HTML template into the Shadow Root.
   3. Inserts a `<link>` for scoped CSS.
   4. Puts the compulsory `status` attribute in place.
-  5. Sets up event listeners on the icon: pointer down, pointer up, pointer leave, click and key down.
+  5. Sets up event listeners on the icon: pointer down, pointer up, pointer leave, click, key down, key up and blur.
 
 - **`disconnectedCallback()`**
   - Removes the event listeners.
@@ -124,7 +125,7 @@ Lifecycle methods are implemented in the base class and extended by the **Restor
   - **Optional attribute**: absent from the DOM when `visible` (the default); present as `[visibility="hidden"]` on the host element when hidden.
 
 - **`status`** (`released` | `pressed`)
-  - Whether the restore button is being pressed. It is `pressed` from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and `released` at all other times.
+  - Whether the restore button is being pressed. It is `pressed` from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and from the moment Enter or the space bar goes down on the focused icon until the key is lifted or the icon loses focus. It is `released` at all other times.
   - **Readonly**: only the component changes it. It has no public setter, and an attribute changed from outside is put back.
   - **Compulsory attribute**: always present in the DOM, so a stylesheet can select `[status="pressed"]`.
 
@@ -190,14 +191,16 @@ restore.onevent = (event) => console.log(event.type, event.detail);
 
 ### 4.4 Gestures
 
-| Gesture       | On the icon                                    | Result                                          |
-| ------------- | ---------------------------------------------- | ----------------------------------------------- |
-| pointer down  | the pointer is pressed                         | `status` becomes `pressed`                      |
-| pointer up    | the pointer is lifted                          | `status` becomes `released`                     |
-| pointer leave | the pointer leaves while pressed               | `status` becomes `released`; no request is made |
-| click         | the pointer is pressed and lifted              | `onrestore`                                     |
-| key down      | Enter or the space bar, with focus on the icon | `onrestore`                                     |
-| hover         | the pointer is over the icon                   | the colours, border and shadow change           |
+| Gesture       | On the icon                                              | Result                                                                    |
+| ------------- | -------------------------------------------------------- | ------------------------------------------------------------------------- |
+| pointer down  | the pointer is pressed                                   | `status` becomes `pressed`                                                |
+| pointer up    | the pointer is lifted                                    | `status` becomes `released`                                               |
+| pointer leave | the pointer leaves while pressed                         | `status` becomes `released`; no request is made                           |
+| click         | the pointer is pressed and lifted                        | `onrestore`                                                               |
+| key down      | Enter or the space bar goes down, with focus on the icon | `status` becomes `pressed`; the page does not scroll                      |
+| key up        | Enter or the space bar is lifted                         | `onrestore` when the control is pressed; then `status` becomes `released` |
+| blur          | the icon loses focus while pressed                       | `status` becomes `released`; no request is made                           |
+| hover         | the pointer is over the icon                             | the colours, border and shadow change                                     |
 
 ---
 
