@@ -291,6 +291,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_SHOW` is `onshow`", () => {
           expect(Event.ON_SHOW).toBe("onshow");
         });
+
+        then("`Event.ON_RESTORE` exists", () => {
+          expect(Event.ON_RESTORE).toBeDefined();
+        });
+
+        then("`Event.ON_RESTORE` is `onrestore`", () => {
+          expect(Event.ON_RESTORE).toBe("onrestore");
+        });
       });
     });
   });

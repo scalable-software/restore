@@ -1118,4 +1118,35 @@ events(Event.ON_SHOW, () => {
   });
 });
 
+events(Event.ON_RESTORE, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.onrestore` setter exists", () => {
+          expect(hasSetter(restore, Event.ON_RESTORE)).toBeTrue();
+        });
+      });
+    });
+  });
+});
+
 // Gesture
