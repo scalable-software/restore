@@ -123,7 +123,8 @@ export type Event = (typeof Event)[keyof typeof Event];
  */
 export const Gesture = {
   POINTERDOWN: "pointerdown",
-  POINTERUP: "pointerup"
+  POINTERUP: "pointerup",
+  POINTERLEAVE: "pointerleave"
 } as const;
 /**
  * @category Metadata
