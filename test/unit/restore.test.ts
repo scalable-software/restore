@@ -158,6 +158,47 @@ composition(Composition.CSS, () => {
   });
 });
 
+composition(Composition.ELEMENT, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.elements.icon` is defined", () => {
+          expect(restore["elements"].icon).toBeDefined();
+        });
+
+        when("`restore.elements.icon` is defined", () => {
+          then(
+            "`restore.elements.icon` is a cached reference to the `div` with class `icon`",
+            () => {
+              const icon = restore.root.querySelector(".icon") as HTMLDivElement;
+              expect(restore["elements"].icon).toBe(icon);
+            }
+          );
+        });
+      });
+    });
+  });
+});
+
 // State
 
 // Operation
