@@ -11,6 +11,9 @@ import { Tag, CSS, Attributes, Visibility } from "./restore.meta.js";
 
 import { type Meta } from "./restore.meta.js";
 
+// Validation
+import { Validate } from "./restore.validation.js";
+
 /**
  * Optional Configuration: required for restores with custom layout and style
  * @category Configuration
@@ -81,6 +84,9 @@ export class Restore extends Component implements Meta {
     return this._visibility;
   }
   public set visibility(visibility: Visibility) {
+    // Validate
+    visibility = Validate.visibility(visibility);
+
     // Mutate
     this._visibility = visibility;
   }
