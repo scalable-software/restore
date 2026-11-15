@@ -571,6 +571,11 @@ state(State.APPEARANCE, () => {
             then("`restore.appearance` is `Appearance.FLAT`", () => {
               expect(restore.appearance).toBe(Appearance.FLAT);
             });
+
+            then("restore `appearance` attribute is `Appearance.FLAT`", () => {
+              const value = restore.getAttribute(Attributes.APPEARANCE);
+              expect(value).toBe(Appearance.FLAT);
+            });
           });
 
           and("`restore.appearance` is `Appearance.FLAT`", () => {
