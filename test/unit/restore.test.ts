@@ -1550,8 +1550,37 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onrestore` is called once", () => {
-            expect(onrestore).toHaveBeenCalledTimes(1);
+          then("`restore.status` is `Status.PRESSED`", () => {
+            expect(restore.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = restore.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onrestore` is not called", () => {
+            expect(onrestore).not.toHaveBeenCalled();
+          });
+
+          and("user holds `Key.ENTER` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.ENTER,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`restore.status` is `Status.PRESSED`", () => {
+              expect(restore.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onrestore` is not called", () => {
+              expect(onrestore).not.toHaveBeenCalled();
+            });
           });
         });
 
@@ -1566,8 +1595,37 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onrestore` is called once", () => {
-            expect(onrestore).toHaveBeenCalledTimes(1);
+          then("`restore.status` is `Status.PRESSED`", () => {
+            expect(restore.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = restore.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onrestore` is not called", () => {
+            expect(onrestore).not.toHaveBeenCalled();
+          });
+
+          and("user holds `Key.SPACE` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.SPACE,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`restore.status` is `Status.PRESSED`", () => {
+              expect(restore.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onrestore` is not called", () => {
+              expect(onrestore).not.toHaveBeenCalled();
+            });
           });
         });
 
@@ -1578,6 +1636,10 @@ gesture(Gesture.KEYDOWN, () => {
             restore.onrestore = onrestore;
             const icon = restore.root.querySelector(".icon") as HTMLElement;
             icon.dispatchEvent(new KeyboardEvent(Gesture.KEYDOWN, { key: "a" }));
+          });
+
+          then("`restore.status` is `Status.RELEASED`", () => {
+            expect(restore.status).toEqual(Status.RELEASED);
           });
 
           then("`onrestore` is not called", () => {
