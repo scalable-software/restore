@@ -557,6 +557,22 @@ state(State.APPEARANCE, () => {
         then("`appearance` attribute does not exist", () => {
           expect(restore.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
         });
+
+        then("`restore.appearance` setter exists", () => {
+          expect(hasSetter(restore, "appearance")).toBeTrue();
+        });
+
+        and("`restore.appearance` setter exists", () => {
+          when("`restore.appearance` is set to `Appearance.FLAT`", () => {
+            beforeEach(() => {
+              restore.appearance = Appearance.FLAT;
+            });
+
+            then("`restore.appearance` is `Appearance.FLAT`", () => {
+              expect(restore.appearance).toBe(Appearance.FLAT);
+            });
+          });
+        });
       });
     });
   });
