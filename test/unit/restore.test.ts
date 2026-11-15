@@ -1340,3 +1340,53 @@ gesture(Gesture.POINTERDOWN, () => {
     });
   });
 });
+
+gesture(Gesture.POINTERUP, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        and("user presses the pointer down on `div` with class `icon`", () => {
+          beforeEach(() => {
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(new PointerEvent(Gesture.POINTERDOWN));
+          });
+
+          when("user lifts the pointer from `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new PointerEvent(Gesture.POINTERUP));
+            });
+
+            then("`restore.status` is `Status.RELEASED`", () => {
+              expect(restore.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = restore.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+          });
+        });
+      });
+    });
+  });
+});
