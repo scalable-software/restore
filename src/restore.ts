@@ -327,6 +327,7 @@ export class Restore extends Component implements Meta {
       Gesture.POINTERLEAVE,
       this._handleIconPointerleave
     );
+    this.elements.icon?.addEventListener(Gesture.CLICK, this._handleIconClick);
   };
 
   /**
@@ -347,6 +348,7 @@ export class Restore extends Component implements Meta {
       Gesture.POINTERLEAVE,
       this._handleIconPointerleave
     );
+    this.elements.icon?.removeEventListener(Gesture.CLICK, this._handleIconClick);
   };
 
   /**
@@ -369,4 +371,11 @@ export class Restore extends Component implements Meta {
    * @hidden
    */
   private _handleIconPointerleave = () => this._release();
+
+  /**
+   * Handles a click on the icon: requests restoring
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconClick = () => this.restore();
 }
