@@ -365,6 +365,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.KEYUP` is `keyup`", () => {
           expect(Gesture.KEYUP).toBe("keyup");
         });
+
+        then("`Gesture.BLUR` exists", () => {
+          expect(Gesture.BLUR).toBeDefined();
+        });
+
+        then("`Gesture.BLUR` is `blur`", () => {
+          expect(Gesture.BLUR).toBe("blur");
+        });
       });
     });
   });
