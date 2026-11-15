@@ -257,6 +257,11 @@ state(State.VISIBILITY, () => {
             then("`restore.visibility` is `Visibility.HIDDEN`", () => {
               expect(restore.visibility).toBe(Visibility.HIDDEN);
             });
+
+            then("restore `visibility` attribute is `Visibility.HIDDEN`", () => {
+              const value = restore.getAttribute(Attributes.VISIBILITY);
+              expect(value).toBe(Visibility.HIDDEN);
+            });
           });
 
           and("`restore.visibility` is `Visibility.HIDDEN`", () => {
