@@ -12,9 +12,10 @@
   --button-pressed-background-color: #e1e1e1;
   --button-pressed-border-color: #a1a1a1;
 
-  --button-hover-background-color: #f3f3f3;
   --button-hover-border-color: #4a4a4a;
   --button-hover-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --button-released-hover-background-color: #f3f3f3;
+  --button-pressed-hover-background-color: #cacaca;
 
   --icon-size: 40px;
   --icon-margin: 4px;
@@ -39,10 +40,11 @@
     --button-pressed-background-color: #333333;
     --button-pressed-border-color: #555555;
 
-    --button-hover-background-color: #2a2a2a;
     --button-hover-border-color: #cfcfcf;
     --button-hover-shadow:
       0 2px 6px rgba(255, 255, 255, 0.16), 0 6px 12px rgba(0, 0, 0, 0.6);
+    --button-released-hover-background-color: #2a2a2a;
+    --button-pressed-hover-background-color: #3d3d3d;
 
     --svg-fill-color: #cfcfcf;
     --svg-hover-fill-color: #ffffff;
@@ -117,7 +119,12 @@ svg {
   }
 
   :host([status="released"]) .icon:hover {
-    background-color: var(--button-hover-background-color);
+    background-color: var(--button-released-hover-background-color);
+    border-color: var(--button-hover-border-color);
+    box-shadow: var(--button-hover-shadow);
+  }
+  :host([status="pressed"]) .icon:hover {
+    background-color: var(--button-pressed-hover-background-color);
     border-color: var(--button-hover-border-color);
     box-shadow: var(--button-hover-shadow);
   }
