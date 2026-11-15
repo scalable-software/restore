@@ -422,6 +422,14 @@ state(State.STATUS, () => {
           });
         });
 
+        then("assigning `restore.status` outside the restore does not compile", () => {
+          const assign = () => {
+            // @ts-expect-error: the setter of `status` is private
+            restore.status = Status.PRESSED;
+          };
+          expect(assign).toEqual(jasmine.any(Function));
+        });
+
         then("`status` attribute exists", () => {
           const value = restore.getAttribute(Attributes.STATUS);
           expect(value).not.toBeNull();
