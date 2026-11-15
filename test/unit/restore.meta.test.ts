@@ -311,9 +311,19 @@ metadata(Metadata.GESTURE, () => {
       expect(Gesture).toBeDefined();
     });
 
-    when("Gesture is defined", () => {
+    and("Gesture is defined", () => {
       then("Gesture is an object", () => {
         expect(typeof Gesture).toBe("object");
+      });
+
+      when("Gesture is an object", () => {
+        then("`Gesture.POINTERDOWN` exists", () => {
+          expect(Gesture.POINTERDOWN).toBeDefined();
+        });
+
+        then("`Gesture.POINTERDOWN` is `pointerdown`", () => {
+          expect(Gesture.POINTERDOWN).toBe("pointerdown");
+        });
       });
     });
   });
