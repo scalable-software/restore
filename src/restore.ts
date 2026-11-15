@@ -337,6 +337,10 @@ export class Restore extends Component implements Meta {
       Gesture.KEYUP,
       this._handleIconKeyupRestore
     );
+    this.elements.icon?.addEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
+    );
   };
 
   /**
@@ -365,6 +369,10 @@ export class Restore extends Component implements Meta {
     this.elements.icon?.removeEventListener(
       Gesture.KEYUP,
       this._handleIconKeyupRestore
+    );
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
     );
   };
 
@@ -418,4 +426,12 @@ export class Restore extends Component implements Meta {
     (event.key === Key.ENTER || event.key === Key.SPACE) &&
     this.status === Status.PRESSED &&
     this.restore();
+
+  /**
+   * Handles a key lifted from the icon: Enter or Space releases the restore button
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeyupRelease = (event: KeyboardEvent) =>
+    (event.key === Key.ENTER || event.key === Key.SPACE) && this._release();
 }
