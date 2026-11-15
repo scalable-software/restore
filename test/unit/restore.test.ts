@@ -828,6 +828,31 @@ operation(Operation.RESTORE, () => {
         then("`restore.restore` method exists", () => {
           expect(restore.restore).toBeDefined();
         });
+
+        and("`restore.restore` method exists", () => {
+          when("invoking `restore.restore`", () => {
+            let result: unknown;
+            beforeEach(() => {
+              result = restore.restore();
+            });
+
+            then("`restore.visibility` is `Visibility.VISIBLE`", () => {
+              expect(restore.visibility).toBe(Visibility.VISIBLE);
+            });
+
+            then("`restore.status` is `Status.RELEASED`", () => {
+              expect(restore.status).toBe(Status.RELEASED);
+            });
+
+            then("`restore.appearance` is `Appearance.FLOATING`", () => {
+              expect(restore.appearance).toBe(Appearance.FLOATING);
+            });
+
+            then("`restore.restore` returns nothing", () => {
+              expect(result).toBeUndefined();
+            });
+          });
+        });
       });
     });
   });
