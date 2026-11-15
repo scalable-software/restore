@@ -389,10 +389,10 @@ export class Restore extends Component implements Meta {
   private _handleIconClick = () => this.restore();
 
   /**
-   * Handles a key pressed on the icon: Enter or Space requests restoring
+   * Handles a key pressed on the icon: Enter or Space presses the restore button
    * @category Gesture
    * @hidden
    */
   private _handleIconKeydown = (event: KeyboardEvent) =>
-    (event.key === Key.ENTER || event.key === Key.SPACE) && this.restore();
+    (event.key === Key.ENTER || event.key === Key.SPACE) && this._press();
 }
