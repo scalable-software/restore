@@ -127,7 +127,8 @@ export class Restore extends Component implements Meta {
    */
   protected _attributeHandlers = {
     [Attributes.VISIBILITY]: (value: Visibility | null) =>
-      (this.visibility = value)
+      (this.visibility = value),
+    [Attributes.STATUS]: () => this._reflect(Attributes.STATUS, this._status)
   };
 
   /**
