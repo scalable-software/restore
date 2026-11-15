@@ -656,6 +656,16 @@ state(State.APPEARANCE, () => {
             );
           });
 
+          when("`appearance` attribute is set to `Appearance.FLOATING`", () => {
+            beforeEach(() => {
+              restore.setAttribute(Attributes.APPEARANCE, Appearance.FLOATING);
+            });
+
+            then("`appearance` attribute does not exist", () => {
+              expect(restore.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
+            });
+          });
+
           when("`restore.appearance` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
