@@ -11,7 +11,8 @@ import {
   Appearance,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Key
 } from "@scalable.software/restore";
 
 // Configuration
@@ -1504,6 +1505,49 @@ gesture(Gesture.CLICK, () => {
             then("`onrestore` is called twice", () => {
               expect(onrestore).toHaveBeenCalledTimes(2);
             });
+          });
+        });
+      });
+    });
+  });
+});
+
+gesture(Gesture.KEYDOWN, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        when("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onrestore: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            restore.onrestore = onrestore;
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
+            );
+          });
+
+          then("`onrestore` is called once", () => {
+            expect(onrestore).toHaveBeenCalledTimes(1);
           });
         });
       });
