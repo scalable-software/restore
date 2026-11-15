@@ -90,3 +90,11 @@ svg {
 :host([visibility="hidden"]) {
   display: none;
 }
+
+/* =======================
+  State Status: Pressed
+======================= */
+:host([status="pressed"]) .icon {
+  background-color: var(--button-pressed-background-color);
+  border-color: var(--button-pressed-border-color);
+}
