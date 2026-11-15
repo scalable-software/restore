@@ -121,7 +121,9 @@ export type Event = (typeof Event)[keyof typeof Event];
  * @category Metadata
  * @enum
  */
-export const Gesture = {} as const;
+export const Gesture = {
+  POINTERDOWN: "pointerdown"
+} as const;
 /**
  * @category Metadata
  */
