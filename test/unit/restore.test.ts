@@ -1414,6 +1414,17 @@ gesture(Gesture.POINTERLEAVE, () => {
           restore.remove();
         });
 
+        when("the pointer leaves `div` with class `icon`", () => {
+          beforeEach(() => {
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(new PointerEvent(Gesture.POINTERLEAVE));
+          });
+
+          then("`restore.status` is `Status.RELEASED`", () => {
+            expect(restore.status).toEqual(Status.RELEASED);
+          });
+        });
+
         and("user presses the pointer down on `div` with class `icon`", () => {
           beforeEach(() => {
             const icon = restore.root.querySelector(".icon") as HTMLElement;
