@@ -1034,6 +1034,18 @@ events(Event.ON_SHOW, () => {
                 then("`restore.onshow` is called", () => {
                   expect(onshow).toHaveBeenCalled();
                 });
+
+                then(
+                  "`restore.onshow` is called with `{ detail: { visibility: Visibility.VISIBLE } }`",
+                  () => {
+                    const message = {
+                      detail: { visibility: Visibility.VISIBLE }
+                    };
+                    expect(onshow).toHaveBeenCalledWith(
+                      jasmine.objectContaining(message)
+                    );
+                  }
+                );
               });
             });
           });
