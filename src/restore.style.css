@@ -25,3 +25,26 @@
 
   --svg-hover-fill-color: #404040;
 }
+
+/* =======================
+  Dark Mode Variables
+======================= */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --button-background-color: #1e1e1e;
+    --button-border-color: #3c3c3c;
+    --button-shadow:
+      0 1px 3px rgba(255, 255, 255, 0.12), 0 3px 8px rgba(0, 0, 0, 0.6);
+
+    --button-pressed-background-color: #333333;
+    --button-pressed-border-color: #555555;
+
+    --button-hover-background-color: #2a2a2a;
+    --button-hover-border-color: #cfcfcf;
+    --button-hover-shadow:
+      0 2px 6px rgba(255, 255, 255, 0.16), 0 6px 12px rgba(0, 0, 0, 0.6);
+
+    --svg-fill-color: #cfcfcf;
+    --svg-hover-fill-color: #ffffff;
+  }
+}
