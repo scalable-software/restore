@@ -115,4 +115,10 @@ svg {
   .icon:hover svg {
     fill: var(--svg-hover-fill-color);
   }
+
+  :host([status="released"]) .icon:hover {
+    background-color: var(--button-hover-background-color);
+    border-color: var(--button-hover-border-color);
+    box-shadow: var(--button-hover-shadow);
+  }
 }
