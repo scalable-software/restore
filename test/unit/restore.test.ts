@@ -342,6 +342,16 @@ state(State.VISIBILITY, () => {
             );
           });
 
+          when("`visibility` attribute is set to `Visibility.VISIBLE`", () => {
+            beforeEach(() => {
+              restore.setAttribute(Attributes.VISIBILITY, Visibility.VISIBLE);
+            });
+
+            then("`visibility` attribute does not exist", () => {
+              expect(restore.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+            });
+          });
+
           when("`restore.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
