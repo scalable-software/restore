@@ -1012,6 +1012,32 @@ events(Event.ON_SHOW, () => {
         then("`restore.onshow` setter exists", () => {
           expect(hasSetter(restore, Event.ON_SHOW)).toBeTrue();
         });
+
+        and("`restore.onshow` setter exists", () => {
+          and("`restore.visibility` is `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              restore.visibility = Visibility.HIDDEN;
+            });
+
+            and("`restore.onshow` is set to a listener", () => {
+              let onshow: jasmine.Spy;
+              beforeEach(() => {
+                onshow = jasmine.createSpy("onshow");
+                restore.onshow = onshow;
+              });
+
+              when("`restore.visibility` is set to `Visibility.VISIBLE`", () => {
+                beforeEach(() => {
+                  restore.visibility = Visibility.VISIBLE;
+                });
+
+                then("`restore.onshow` is called", () => {
+                  expect(onshow).toHaveBeenCalled();
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
