@@ -166,8 +166,16 @@ export class Restore extends Component implements Meta {
     return this._status;
   }
   private set status(status: Status) {
-    // Mutate
-    this._status = status;
+    try {
+      // Guard
+      if (this._status === status) return;
+
+      // Mutate
+      this._status = status;
+    } finally {
+      // Reflect
+      this._reflect(Attributes.STATUS, this._status);
+    }
   }
 
   /**
