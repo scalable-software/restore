@@ -136,11 +136,15 @@ export class Restore extends Component implements Meta {
   }
 
   /**
-   * Get the appearance of the restore button
+   * Get and set the appearance of the restore button
    * @category State
    */
   public get appearance(): Appearance {
     return this._appearance;
+  }
+  public set appearance(appearance: Appearance) {
+    // Mutate
+    this._appearance = appearance;
   }
 
   /**
