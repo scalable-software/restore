@@ -7,7 +7,8 @@ import {
   Attributes,
   State,
   Visibility,
-  Status
+  Status,
+  Appearance
 } from "@scalable.software/restore";
 
 // Configuration
@@ -514,6 +515,47 @@ state(State.STATUS, () => {
         then("`status` attribute is `Status.RELEASED`", () => {
           const value = restore.getAttribute(Attributes.STATUS);
           expect(value).toBe(Status.RELEASED);
+        });
+      });
+    });
+  });
+});
+
+state(State.APPEARANCE, () => {
+  given("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.appearance` getter exists", () => {
+          expect(restore.appearance).toBeDefined();
+        });
+
+        when("`restore.appearance` getter exists", () => {
+          then("`restore.appearance` is `Appearance.FLOATING`", () => {
+            expect(restore.appearance).toBe(Appearance.FLOATING);
+          });
+        });
+
+        then("`appearance` attribute does not exist", () => {
+          expect(restore.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
         });
       });
     });

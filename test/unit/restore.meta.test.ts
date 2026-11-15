@@ -4,6 +4,7 @@ import {
   State,
   Visibility,
   Status,
+  Appearance,
   Operation,
   Event,
   Gesture
@@ -50,6 +51,14 @@ metadata(Metadata.ATTRIBUTES, () => {
         then("`Attributes.STATUS` is `status`", () => {
           expect(Attributes.STATUS).toBe("status");
         });
+
+        then("`Attributes.APPEARANCE` exists", () => {
+          expect(Attributes.APPEARANCE).toBeDefined();
+        });
+
+        then("`Attributes.APPEARANCE` is `appearance`", () => {
+          expect(Attributes.APPEARANCE).toBe("appearance");
+        });
       });
     });
   });
@@ -89,6 +98,14 @@ metadata(Metadata.STATE, () => {
 
         then("`State.STATUS` is `status`", () => {
           expect(State.STATUS).toBe("status");
+        });
+
+        then("`State.APPEARANCE` exists", () => {
+          expect(State.APPEARANCE).toBeDefined();
+        });
+
+        then("`State.APPEARANCE` is `appearance`", () => {
+          expect(State.APPEARANCE).toBe("appearance");
         });
       });
     });
@@ -153,6 +170,38 @@ metadata(State.STATUS, () => {
 
         then("`Status.PRESSED` is `pressed`", () => {
           expect(Status.PRESSED).toBe("pressed");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.APPEARANCE, () => {
+  and("Appearance imported", () => {
+    then("Appearance is defined", () => {
+      expect(Appearance).toBeDefined();
+    });
+
+    and("Appearance is defined", () => {
+      then("Appearance is an object", () => {
+        expect(typeof Appearance).toBe("object");
+      });
+
+      when("Appearance is an object", () => {
+        then("`Appearance.FLOATING` exists", () => {
+          expect(Appearance.FLOATING).toBeDefined();
+        });
+
+        then("`Appearance.FLOATING` is `floating`", () => {
+          expect(Appearance.FLOATING).toBe("floating");
+        });
+
+        then("`Appearance.FLAT` exists", () => {
+          expect(Appearance.FLAT).toBeDefined();
+        });
+
+        then("`Appearance.FLAT` is `flat`", () => {
+          expect(Appearance.FLAT).toBe("flat");
         });
       });
     });
