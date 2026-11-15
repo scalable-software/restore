@@ -332,6 +332,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.POINTERUP` is `pointerup`", () => {
           expect(Gesture.POINTERUP).toBe("pointerup");
         });
+
+        then("`Gesture.POINTERLEAVE` exists", () => {
+          expect(Gesture.POINTERLEAVE).toBeDefined();
+        });
+
+        then("`Gesture.POINTERLEAVE` is `pointerleave`", () => {
+          expect(Gesture.POINTERLEAVE).toBe("pointerleave");
+        });
       });
     });
   });
