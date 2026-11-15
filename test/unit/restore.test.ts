@@ -1646,6 +1646,54 @@ gesture(Gesture.KEYDOWN, () => {
             expect(onrestore).not.toHaveBeenCalled();
           });
         });
+
+        when("user presses `Key.ENTER` on `div` with class `icon`, and the press can be cancelled", () => {
+          let keydown: KeyboardEvent;
+          beforeEach(() => {
+            keydown = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.ENTER,
+              cancelable: true
+            });
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(keydown);
+          });
+
+          then("the default action of the key is prevented", () => {
+            expect(keydown.defaultPrevented).toBeTrue();
+          });
+        });
+
+        when("user presses `Key.SPACE` on `div` with class `icon`, and the press can be cancelled", () => {
+          let keydown: KeyboardEvent;
+          beforeEach(() => {
+            keydown = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.SPACE,
+              cancelable: true
+            });
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(keydown);
+          });
+
+          then("the default action of the key is prevented: the page does not scroll", () => {
+            expect(keydown.defaultPrevented).toBeTrue();
+          });
+        });
+
+        when("user presses another key on `div` with class `icon`, and the press can be cancelled", () => {
+          let keydown: KeyboardEvent;
+          beforeEach(() => {
+            keydown = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: "a",
+              cancelable: true
+            });
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(keydown);
+          });
+
+          then("the default action of the key is not prevented", () => {
+            expect(keydown.defaultPrevented).toBeFalse();
+          });
+        });
       });
     });
   });
