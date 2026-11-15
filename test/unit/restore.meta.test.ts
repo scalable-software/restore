@@ -13,6 +13,10 @@ metadata(Metadata.TAG, () => {
     then("Tag is defined", () => {
       expect(Tag).toBeDefined();
     });
+
+    then("Tag is `restore-button`", () => {
+      expect(Tag).toBe("restore-button");
+    });
   });
 });
 
