@@ -1,6 +1,6 @@
 {
   "name": "@scalable.software/restore",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A theme-aware web component that lets users ask for a window to be restored to its normal size, and can be shown or hidden, while emitting an event for each request.",
   "keywords": [
     "web component"
