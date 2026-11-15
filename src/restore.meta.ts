@@ -94,7 +94,8 @@ export type Appearance = (typeof Appearance)[keyof typeof Appearance];
  */
 export const Operation = {
   HIDE: "hide",
-  SHOW: "show"
+  SHOW: "show",
+  RESTORE: "restore"
 } as const;
 
 /**

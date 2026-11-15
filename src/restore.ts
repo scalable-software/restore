@@ -179,6 +179,12 @@ export class Restore extends Component implements Meta {
   };
 
   /**
+   * Request restoring. It changes no state.
+   * @category Operations
+   */
+  public restore = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
