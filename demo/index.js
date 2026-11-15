@@ -12,63 +12,93 @@ customElements.define(Restore.Tag, Restore);
 
 const restore = document.querySelector(Restore.Tag);
 
-/* Operations: one button for each operation the package exports */
-const operations = document.querySelector("#operations");
+/* ───────────────────────────── States ───────────────────────────── */
 
-Object.values(Operation).forEach((name) => {
-  const button = document.createElement("button");
-  button.textContent = name;
-  button.addEventListener("click", () => restore[name]());
-  operations.append(button);
-});
-
-/* States: a choice for each writable state, text for each readonly state */
-const states = document.querySelector("#states");
-
-const writable = {
+// The value list of each writable state. A state without one is readonly.
+const choices = {
   [State.VISIBILITY]: Visibility,
   [State.APPEARANCE]: Appearance
 };
 
-const followers = Object.values(State).map((name) => {
-  const term = document.createElement("dt");
-  term.textContent = name;
+const states = document.querySelector("#states");
 
-  const description = document.createElement("dd");
-  states.append(term, description);
+const addChoice = (state, values) => {
+  const select = document.createElement("select");
+  select.id = state;
+  Object.values(values).forEach((value) => select.add(new Option(value)));
+  select.addEventListener("change", () => (restore[state] = select.value));
+  return select;
+};
 
-  if (name in writable) {
-    const select = document.createElement("select");
-    Object.values(writable[name]).forEach((value) =>
-      select.append(new Option(value, value))
-    );
-    select.addEventListener("change", () => (restore[name] = select.value));
-    description.append(select);
+const addText = (state) => {
+  const output = document.createElement("output");
+  output.id = state;
+  output.title = "readonly";
+  return output;
+};
 
-    return () => (select.value = restore[name]);
-  }
+Object.values(State).forEach((state) => {
+  const name = document.createElement("dt");
+  const label = document.createElement("label");
+  label.htmlFor = state;
+  label.textContent = choices[state] ? state : `${state} (readonly)`;
+  name.append(label);
 
-  const value = document.createElement("output");
-  description.append(value, " (readonly)");
+  const value = document.createElement("dd");
+  value.append(
+    choices[state] ? addChoice(state, choices[state]) : addText(state)
+  );
 
-  return () => (value.textContent = restore[name]);
+  states.append(name, value);
 });
 
-const follow = () => followers.forEach((follower) => follower());
+// States are attributes: follow the component when it changes one itself.
+const follow = () =>
+  Object.values(State).forEach(
+    (state) => (states.querySelector(`#${state}`).value = restore[state])
+  );
 
 new MutationObserver(follow).observe(restore, { attributes: true });
-
 follow();
 
-/* Events: a log of every event the component sends, oldest first */
+/* ───────────────────────────── Operations ───────────────────────────── */
+
+const operations = document.querySelector("#operations");
+
+Object.values(Operation).forEach((operation) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = operation;
+  button.addEventListener("click", () => restore[operation]());
+  operations.append(button);
+});
+
+/* ───────────────────────────── Events ───────────────────────────── */
+
 const events = document.querySelector("#events");
 
-restore.onevent = (event) => {
+const log = (event) => {
   const entry = document.createElement("li");
-  const time = new Date().toLocaleTimeString();
-  entry.textContent = `${time} ${event.type} ${JSON.stringify(event.detail)}`;
+
+  const time = document.createElement("time");
+  time.textContent = new Date().toLocaleTimeString();
+
+  const type = document.createElement("strong");
+  type.textContent = event.type;
+
+  entry.append(time, type);
+
+  if (event.detail !== null) {
+    const detail = document.createElement("code");
+    detail.textContent = JSON.stringify(event.detail);
+    entry.append(detail);
+  }
+
   events.append(entry);
 };
+
+// `onevent` receives every event, and leaves the `on…` properties free.
+restore.onevent = log;
 
 document
   .querySelector("#clear")

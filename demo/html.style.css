@@ -1,4 +1,23 @@
-/* Default Styles (Light Mode) */
+/* Root Variables (Light Mode) */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --muted-color: #5a5a5a;
+  --line-color: #d1d1d1;
+  --surface-color: #f6f6f6;
+}
+
+/* Dark Mode Variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1e1e1e;
+    --text-color: #f0f0f0;
+    --muted-color: #a8a8a8;
+    --line-color: #3c3c3c;
+    --surface-color: #262626;
+  }
+}
+
 html {
   height: 100%;
   background-color: var(--background-color);
@@ -15,67 +34,40 @@ body {
   color: inherit;
 }
 
-/* Root Variables */
-:root {
-  --background-color: #ffffff;
-  --text-color: #000000;
-  --stage-color: #f3f3f3;
-  --line-color: #d1d1d1;
-}
-
-/* Dark Mode Styles */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #1e1e1e;
-    --text-color: #f0f0f0;
-    --stage-color: #2a2a2a;
-    --line-color: #3c3c3c;
-  }
-}
-
 /* The stage: the component, in a band across the top */
 .stage {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 96px;
-  background-color: var(--stage-color);
+  padding: 24px;
   border-bottom: 1px solid var(--line-color);
 }
 
-/* The controls: one group for each section of the specification */
+/* The controls: one column for each group, stacked on a narrow window */
 .controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  align-items: stretch;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 16px;
   padding: 16px;
 }
 
 .group {
+  min-width: 0;
   padding: 16px;
   border: 1px solid var(--line-color);
   border-radius: 8px;
+  background-color: var(--surface-color);
 }
 
 .group h2 {
   margin: 0 0 12px;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-button {
-  padding: 4px 12px;
-  font: inherit;
-  cursor: pointer;
-}
-
-.states {
+/* States */
+#states {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 8px 16px;
@@ -83,19 +75,54 @@ button {
   margin: 0;
 }
 
-.states dd {
+#states dt {
+  color: var(--muted-color);
+}
+
+#states dd {
   margin: 0;
 }
 
+/* Operations */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+button,
 select {
+  padding: 4px 12px;
+  border: 1px solid var(--line-color);
+  border-radius: 4px;
+  background-color: var(--background-color);
+  color: inherit;
   font: inherit;
 }
 
-.events {
+button {
+  cursor: pointer;
+}
+
+/* Events */
+#events {
   margin: 12px 0 0;
   padding: 0;
   list-style: none;
-  font-family: ui-monospace, monospace;
-  font-size: 12px;
+}
+
+#events li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 4px 0;
+  border-top: 1px solid var(--line-color);
+}
+
+#events time {
+  color: var(--muted-color);
+}
+
+#events code {
   overflow-wrap: anywhere;
 }
