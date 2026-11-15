@@ -93,7 +93,8 @@ export type Appearance = (typeof Appearance)[keyof typeof Appearance];
  * @enum
  */
 export const Operation = {
-  HIDE: "hide"
+  HIDE: "hide",
+  SHOW: "show"
 } as const;
 
 /**
