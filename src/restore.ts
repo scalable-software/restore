@@ -15,7 +15,8 @@ import {
   Status,
   Appearance,
   Event,
-  Gesture
+  Gesture,
+  Key
 } from "./restore.meta.js";
 
 import { type Meta } from "./restore.meta.js";
@@ -328,6 +329,10 @@ export class Restore extends Component implements Meta {
       this._handleIconPointerleave
     );
     this.elements.icon?.addEventListener(Gesture.CLICK, this._handleIconClick);
+    this.elements.icon?.addEventListener(
+      Gesture.KEYDOWN,
+      this._handleIconKeydown
+    );
   };
 
   /**
@@ -349,6 +354,10 @@ export class Restore extends Component implements Meta {
       this._handleIconPointerleave
     );
     this.elements.icon?.removeEventListener(Gesture.CLICK, this._handleIconClick);
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYDOWN,
+      this._handleIconKeydown
+    );
   };
 
   /**
@@ -378,4 +387,12 @@ export class Restore extends Component implements Meta {
    * @hidden
    */
   private _handleIconClick = () => this.restore();
+
+  /**
+   * Handles a key pressed on the icon: Enter requests restoring
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeydown = (event: KeyboardEvent) =>
+    event.key === Key.ENTER && this.restore();
 }
