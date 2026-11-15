@@ -340,6 +340,14 @@ metadata(Metadata.GESTURE, () => {
         then("`Gesture.POINTERLEAVE` is `pointerleave`", () => {
           expect(Gesture.POINTERLEAVE).toBe("pointerleave");
         });
+
+        then("`Gesture.CLICK` exists", () => {
+          expect(Gesture.CLICK).toBeDefined();
+        });
+
+        then("`Gesture.CLICK` is `click`", () => {
+          expect(Gesture.CLICK).toBe("click");
+        });
       });
     });
   });
