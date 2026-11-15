@@ -280,6 +280,16 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          when("`visibility` attribute is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              restore.setAttribute(Attributes.VISIBILITY, Visibility.HIDDEN);
+            });
+
+            then("`restore.visibility` is `Visibility.HIDDEN`", () => {
+              expect(restore.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+
           when("`restore.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
