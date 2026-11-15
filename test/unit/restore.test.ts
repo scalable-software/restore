@@ -103,6 +103,11 @@ composition(Composition.TEMPLATE, () => {
               div = restore.root.querySelector("div.icon") as HTMLDivElement;
             });
 
+            then("`div.icon` contains `svg.restore`", () => {
+              const svg = div.querySelector("svg.restore");
+              expect(svg).not.toBeNull();
+            });
+
             then("`div.icon` has `tabindex` `0`", () => {
               expect(div.getAttribute("tabindex")).toBe("0");
             });
