@@ -71,9 +71,10 @@
 </ul>
 </li>
 <li>
-<p><strong>Use the keyboard</strong>: press Tab until the button has focus, then press Enter or the space bar.</p>
+<p><strong>Use the keyboard</strong>: press Tab until the button has focus, then press and let go of Enter or the space bar.</p>
 <ul>
-<li>Each press logs one <code>onrestore</code>.</li>
+<li>While the key is held down, <code>status</code> is <code>pressed</code>; one <code>onrestore</code> is logged when the key is let go.</li>
+<li>Press the key, then press Tab before letting go: <code>status</code> returns to <code>released</code>, and no <code>onrestore</code> is logged.</li>
 </ul>
 </li>
 <li>
@@ -109,7 +110,7 @@
 <h2 id="3-architectural-overview" class="tsd-anchor-link">3. Architectural Overview<a href="#3-architectural-overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="31-composition" class="tsd-anchor-link">3.1 Composition<a href="#31-composition" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
-<li><strong>Template</strong> (<code>restore.template.html</code>): Defines DOM structure — a <code>.icon</code> container, which can take focus and has the role of a button, holding the SVG icon of two overlapping squares.</li>
+<li><strong>Template</strong> (<code>restore.template.html</code>): Defines DOM structure — a <code>.icon</code> container, which can take focus, has the role of a button and is announced as &quot;Restore&quot;, holding the SVG icon of two overlapping squares.</li>
 <li><strong>Style</strong> (<code>restore.style.css</code>): Encapsulates appearance, including the pressed look, the flat appearance, hover effects, and light/dark theme adaptation.</li>
 <li><strong>Class</strong> (<code>restore.ts</code>): Extends the base component class to handle lifecycle hooks, Shadow DOM creation, attribute reflection, and event dispatch.</li>
 </ul>
@@ -131,7 +132,7 @@
 <li>Clones the HTML template into the Shadow Root.</li>
 <li>Inserts a <code>&lt;link&gt;</code> for scoped CSS.</li>
 <li>Puts the compulsory <code>status</code> attribute in place.</li>
-<li>Sets up event listeners on the icon: pointer down, pointer up, pointer leave, click and key down.</li>
+<li>Sets up event listeners on the icon: pointer down, pointer up, pointer leave, click, key down, key up and blur.</li>
 </ol>
 </li>
 <li>
@@ -155,7 +156,7 @@
 <li>
 <p><strong><code>status</code></strong> (<code>released</code> | <code>pressed</code>)</p>
 <ul>
-<li>Whether the restore button is being pressed. It is <code>pressed</code> from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and <code>released</code> at all other times.</li>
+<li>Whether the restore button is being pressed. It is <code>pressed</code> from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and from the moment Enter or the space bar goes down on the focused icon until the key is lifted or the icon loses focus. It is <code>released</code> at all other times.</li>
 <li><strong>Readonly</strong>: only the component changes it. It has no public setter, and an attribute changed from outside is put back.</li>
 <li><strong>Compulsory attribute</strong>: always present in the DOM, so a stylesheet can select <code>[status=&quot;pressed&quot;]</code>.</li>
 </ul>
@@ -237,8 +238,18 @@
 </tr>
 <tr>
 <td>key down</td>
-<td>Enter or the space bar, with focus on the icon</td>
-<td><code>onrestore</code></td>
+<td>Enter or the space bar goes down, with focus on the icon</td>
+<td><code>status</code> becomes <code>pressed</code>; the page does not scroll</td>
+</tr>
+<tr>
+<td>key up</td>
+<td>Enter or the space bar is lifted</td>
+<td><code>onrestore</code> when the control is pressed; then <code>status</code> becomes <code>released</code></td>
+</tr>
+<tr>
+<td>blur</td>
+<td>the icon loses focus while pressed</td>
+<td><code>status</code> becomes <code>released</code>; no request is made</td>
 </tr>
 <tr>
 <td>hover</td>
