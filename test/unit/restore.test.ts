@@ -594,6 +594,16 @@ state(State.APPEARANCE, () => {
             });
           });
 
+          when("`appearance` attribute is set to `Appearance.FLAT`", () => {
+            beforeEach(() => {
+              restore.setAttribute(Attributes.APPEARANCE, Appearance.FLAT);
+            });
+
+            then("`restore.appearance` is `Appearance.FLAT`", () => {
+              expect(restore.appearance).toBe(Appearance.FLAT);
+            });
+          });
+
           when("`restore.appearance` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
