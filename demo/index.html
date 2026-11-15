@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
   <head>
-    <title>Component</title>
+    <title>Restore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="html.style.css" />
 
@@ -11,6 +12,29 @@
 
   <body>
     <script src="index.js" type="module"></script>
-    <component-template></component-template>
+
+    <section class="stage">
+      <restore-button></restore-button>
+    </section>
+
+    <main class="controls">
+      <section class="group">
+        <h2>States</h2>
+        <dl id="states"></dl>
+      </section>
+
+      <section class="group">
+        <h2>Operations</h2>
+        <div id="operations" class="buttons"></div>
+      </section>
+
+      <section class="group">
+        <h2>Events</h2>
+        <div class="buttons">
+          <button id="clear" type="button">Clear</button>
+        </div>
+        <ol id="events"></ol>
+      </section>
+    </main>
   </body>
 </html>

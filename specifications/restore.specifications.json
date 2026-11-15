@@ -1,0 +1,171 @@
+{
+  "Component": "Restore",
+  "Package": "restore",
+  "Description": "A theme-aware web component that lets users ask for a window to be restored to its normal size, and can be shown or hidden, while emitting an event for each request.",
+  "Tag": "restore-button",
+  "Composition": {
+    "template": {
+      "description": "The HTML template for the restore component.",
+      "type": "template",
+      "id": "restore-button",
+      "contains": ["div.icon"]
+    },
+    "div.icon": {
+      "description": "The main container of the restore component.",
+      "type": "div",
+      "cached": true,
+      "class": "icon",
+      "attributes": {
+        "tabindex": "0",
+        "role": "button"
+      },
+      "contains": ["svg.restore"]
+    },
+    "svg.restore": {
+      "description": "The SVG icon of two overlapping squares.",
+      "type": "svg",
+      "class": "restore"
+    }
+  },
+  "States": {
+    "visibility": {
+      "type": "Visibility",
+      "description": "Indicates whether the component is visible or hidden.",
+      "values": ["visible", "hidden"],
+      "default": "visible",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    },
+    "status": {
+      "type": "Status",
+      "description": "Indicates whether the control is being pressed. It is 'pressed' from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and 'released' at all other times. Only the component changes it.",
+      "values": ["released", "pressed"],
+      "default": "released",
+      "readonly": true,
+      "attribute": {
+        "optional": false
+      }
+    },
+    "appearance": {
+      "type": "Appearance",
+      "description": "Indicates whether the component stands alone, with its own border and shadow, or lies flat inside another surface.",
+      "values": ["floating", "flat"],
+      "default": "floating",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    }
+  },
+  "Operations": {
+    "hide": {
+      "description": "Sets 'visibility' state to 'hidden' and hides the restore control.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "show": {
+      "description": "Sets 'visibility' state to 'visible' and shows the restore control.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "restore": {
+      "description": "Requests restoring. Changes no state: every call dispatches 'onrestore'.",
+      "parameters": [],
+      "returns": "void"
+    }
+  },
+  "Events": {
+    "onhide": {
+      "description": "Dispatched when restore 'visibility' state changes from 'visible' to 'hidden'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility state of the component.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["hidden"]
+            }
+          }
+        }
+      ]
+    },
+    "onshow": {
+      "description": "Dispatched when restore 'visibility' state changes from 'hidden' to 'visible'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility state of the component.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["visible"]
+            }
+          }
+        }
+      ]
+    },
+    "onrestore": {
+      "description": "Dispatched each time restoring is requested, by a gesture or by the 'restore' operation."
+    }
+  },
+  "Gestures": {
+    "pointerdown": {
+      "description": "User presses the icon: the control becomes pressed.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "_press"
+        }
+      ]
+    },
+    "pointerup": {
+      "description": "User lifts the pointer from the icon: the control becomes released.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "_release"
+        }
+      ]
+    },
+    "pointerleave": {
+      "description": "The pointer leaves the icon while it is pressed: the control becomes released, and no request is made.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "_release"
+        }
+      ]
+    },
+    "click": {
+      "description": "User presses and lifts on the icon to request restoring.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "restore"
+        }
+      ]
+    },
+    "keydown": {
+      "description": "User presses Enter or Space on the focused icon to request restoring.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "condition": "key is Enter or Space",
+          "operation": "restore"
+        }
+      ]
+    },
+    "hover": {
+      "description": "Changes the button appearance when hovered.",
+      "effects": {
+        "properties": ["background-color", "border-color", "box-shadow", "fill"],
+        "target": "div.icon"
+      }
+    }
+  }
+}

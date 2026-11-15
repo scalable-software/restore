@@ -1,0 +1,128 @@
+/* =======================
+  Host Element Styles
+======================= */
+:host {
+  display: inline-block;
+
+  --button-background-color: #ffffff;
+  --button-border-color: #d1d1d1;
+  --button-radius: 8px;
+  --button-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  --button-pressed-background-color: #e1e1e1;
+  --button-pressed-border-color: #a1a1a1;
+
+  --button-hover-background-color: #f3f3f3;
+  --button-hover-border-color: #4a4a4a;
+  --button-hover-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+  --icon-size: 40px;
+  --icon-margin: 4px;
+
+  --svg-fill-color: #5a5a5a;
+  --svg-size: 24px;
+  --svg-margin: 8px;
+
+  --svg-hover-fill-color: #404040;
+}
+
+/* =======================
+  Dark Mode Variables
+======================= */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --button-background-color: #1e1e1e;
+    --button-border-color: #3c3c3c;
+    --button-shadow:
+      0 1px 3px rgba(255, 255, 255, 0.12), 0 3px 8px rgba(0, 0, 0, 0.6);
+
+    --button-pressed-background-color: #333333;
+    --button-pressed-border-color: #555555;
+
+    --button-hover-background-color: #2a2a2a;
+    --button-hover-border-color: #cfcfcf;
+    --button-hover-shadow:
+      0 2px 6px rgba(255, 255, 255, 0.16), 0 6px 12px rgba(0, 0, 0, 0.6);
+
+    --svg-fill-color: #cfcfcf;
+    --svg-hover-fill-color: #ffffff;
+  }
+}
+
+/* =======================
+  Icon Styles
+======================= */
+.icon {
+  position: relative;
+  margin: var(--icon-margin);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-color: var(--button-background-color);
+  border: 1px solid var(--button-border-color);
+  border-radius: var(--button-radius);
+  box-shadow: var(--button-shadow);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+/* =======================
+  SVG Icon Styles
+======================= */
+svg {
+  margin: var(--svg-margin);
+  width: var(--svg-size);
+  height: var(--svg-size);
+  fill: var(--svg-fill-color);
+  transition:
+    fill 0.2s,
+    opacity 0.2s;
+}
+
+/* =======================
+  State Visibility
+======================= */
+:host([visibility="hidden"]) {
+  display: none;
+}
+
+/* =======================
+  State Status: Pressed
+======================= */
+:host([status="pressed"]) .icon {
+  background-color: var(--button-pressed-background-color);
+  border-color: var(--button-pressed-border-color);
+}
+
+/* =======================
+  State Appearance: Flat
+======================= */
+:host([appearance="flat"]) .icon {
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* =======================
+  Responsive Hover Styles
+======================= */
+@media (hover: hover) {
+  .icon:hover svg {
+    fill: var(--svg-hover-fill-color);
+  }
+
+  :host([status="released"]) .icon:hover {
+    background-color: var(--button-hover-background-color);
+    border-color: var(--button-hover-border-color);
+    box-shadow: var(--button-hover-shadow);
+  }
+  :host([appearance="flat"]) .icon:hover {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}

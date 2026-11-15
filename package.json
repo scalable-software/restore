@@ -1,19 +1,25 @@
 {
-  "name": "@scalable.software/component.template",
-  "version": "0.4.0",
-  "description": "A template for creating web components using Scalable.Software standards and practices.",
+  "name": "@scalable.software/restore",
+  "version": "0.0.1",
+  "description": "A theme-aware web component that lets users ask for a window to be restored to its normal size, and can be shown or hidden, while emitting an event for each request.",
   "keywords": [
     "web component"
   ],
+  "files": [
+    "dist",
+    "!dist/.gitkeep"
+  ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
   },
   "types": "dist/index.d.ts",
   "scripts": {
     "clean.test": "node ./tasks/clean.test.mjs",
-    "pretest": "npm run clean.test && tsc --project tsconfig.test.json",
+    "check.specification": "node ./tasks/check.specification.mjs",
+    "pretest": "npm run clean.test && npm run check.specification && tsc --project tsconfig.test.json",
     "test": "karma start",
     "posttest": "npm run clean.test",
     "prebuild": "node ./tasks/clean.build.mjs",
@@ -22,21 +28,22 @@
     "preserve": "npm run build",
     "serve": "web-dev-server --open /demo/index.html",
     "document": "npx typedoc --tsconfig tsconfig.test.json",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scalable-software/component.template.git"
+    "url": "git+https://github.com/scalable-software/restore.git"
   },
   "author": "Scalable.Software",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
-    "url": "https://github.com/scalable-software/component.template/issues"
+    "url": "https://github.com/scalable-software/restore/issues"
   },
-  "homepage": "https://github.com/scalable-software/component.template#readme",
+  "homepage": "https://github.com/scalable-software/restore#readme",
   "devDependencies": {
     "@types/jasmine": "^5.1.4",
     "@web/dev-server": "^0.4.6",
+    "ajv": "^8.20.0",
     "jasmine": "^5.1.0",
     "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.2.0",
@@ -49,6 +56,6 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@scalable.software/component": "^0.4.0"
+    "@scalable.software/component": "^0.7.0"
   }
 }
