@@ -92,7 +92,9 @@ export type Appearance = (typeof Appearance)[keyof typeof Appearance];
  * @category Metadata
  * @enum
  */
-export const Operation = {} as const;
+export const Operation = {
+  HIDE: "hide"
+} as const;
 
 /**
  * @category Metadata
