@@ -417,6 +417,18 @@ state(State.STATUS, () => {
             expect(restore.status).toBe(Status.RELEASED);
           });
         });
+
+        then("`status` attribute exists", () => {
+          const value = restore.getAttribute(Attributes.STATUS);
+          expect(value).not.toBeNull();
+        });
+
+        and("`status` attribute exists", () => {
+          then("`status` attribute is `Status.RELEASED`", () => {
+            const value = restore.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.RELEASED);
+          });
+        });
       });
     });
   });
