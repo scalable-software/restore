@@ -593,6 +593,19 @@ state(State.APPEARANCE, () => {
               restore.appearance = Appearance.FLAT;
             });
 
+            when("`appearance` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  restore.setAttribute(Attributes.APPEARANCE, "invalid");
+                });
+              });
+
+              then("`appearance` attribute is `Appearance.FLAT`", () => {
+                const value = restore.getAttribute(Attributes.APPEARANCE);
+                expect(value).toBe(Appearance.FLAT);
+              });
+            });
+
             when("`restore.appearance` is set to `null`", () => {
               beforeEach(() => {
                 restore.appearance = null;
