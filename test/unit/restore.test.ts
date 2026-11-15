@@ -259,6 +259,22 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          and("`restore.visibility` is `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              restore.visibility = Visibility.HIDDEN;
+            });
+
+            when("`restore.visibility` is set to `null`", () => {
+              beforeEach(() => {
+                restore.visibility = null;
+              });
+
+              then("`restore.visibility` is `Visibility.VISIBLE`", () => {
+                expect(restore.visibility).toBe(Visibility.VISIBLE);
+              });
+            });
+          });
+
           when("`restore.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
