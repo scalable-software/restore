@@ -895,6 +895,36 @@ events(Event.ON_HIDE, () => {
               restore.onhide = onhide;
             });
 
+            when("`restore.onhide` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  restore.onhide = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onhide value: invalid'", () => {
+                expect(error.message).toBe("Invalid onhide value: invalid");
+              });
+
+              when("`restore.visibility` is set to `Visibility.HIDDEN`", () => {
+                beforeEach(() => {
+                  restore.visibility = Visibility.HIDDEN;
+                });
+
+                then("`restore.onhide` is still called", () => {
+                  expect(onhide).toHaveBeenCalled();
+                });
+              });
+            });
+
             and("`restore.onhide` is set to a new listener", () => {
               let onhide2: jasmine.Spy;
               beforeEach(() => {
