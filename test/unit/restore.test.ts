@@ -895,6 +895,28 @@ events(Event.ON_HIDE, () => {
               restore.onhide = onhide;
             });
 
+            and("`restore.onhide` is set to a new listener", () => {
+              let onhide2: jasmine.Spy;
+              beforeEach(() => {
+                onhide2 = jasmine.createSpy("onhide2");
+                restore.onhide = onhide2;
+              });
+
+              when("`restore.visibility` is set to `Visibility.HIDDEN`", () => {
+                beforeEach(() => {
+                  restore.visibility = Visibility.HIDDEN;
+                });
+
+                then("old `restore.onhide` is not called", () => {
+                  expect(onhide).not.toHaveBeenCalled();
+                });
+
+                then("new `restore.onhide` is called", () => {
+                  expect(onhide2).toHaveBeenCalled();
+                });
+              });
+            });
+
             when("`restore.visibility` is set to `Visibility.HIDDEN` twice", () => {
               beforeEach(() => {
                 restore.visibility = Visibility.HIDDEN;
