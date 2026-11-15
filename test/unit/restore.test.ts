@@ -301,15 +301,32 @@ state(State.VISIBILITY, () => {
           });
 
           when("`visibility` attribute is set to `invalid`", () => {
+            let error: Error;
             beforeEach(async () => {
-              await jasmine.spyOnGlobalErrorsAsync(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
                 restore.setAttribute(Attributes.VISIBILITY, "invalid");
+                error = reported.calls.mostRecent()?.args[0];
               });
             });
 
             then("`visibility` attribute does not exist", () => {
               expect(restore.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
             });
+
+            then("`restore.visibility` is `Visibility.VISIBLE`", () => {
+              expect(restore.visibility).toBe(Visibility.VISIBLE);
+            });
+
+            then("an error is reported", () => {
+              expect(error).toBeDefined();
+            });
+
+            then(
+              "error message contains 'Invalid visibility value: invalid'",
+              () => {
+                expect(error.message).toBe("Invalid visibility value: invalid");
+              }
+            );
           });
 
           when("`restore.visibility` is set to `invalid`", () => {
