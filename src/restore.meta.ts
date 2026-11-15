@@ -18,7 +18,8 @@ export const CSS = "restore.style.css" as const;
  * @enum
  */
 export const Attributes = {
-  VISIBILITY: "visibility"
+  VISIBILITY: "visibility",
+  STATUS: "status"
 } as const;
 /**
  * HTML Attributes available to set
@@ -55,6 +56,21 @@ export const Visibility = {
  * @category Metadata
  */
 export type Visibility = (typeof Visibility)[keyof typeof Visibility];
+
+/**
+ * Indicates whether the control is being pressed
+ * @category Metadata
+ * @enum
+ */
+export const Status = {
+  RELEASED: "released",
+  PRESSED: "pressed"
+} as const;
+/**
+ * Indicates whether the control is being pressed
+ * @category Metadata
+ */
+export type Status = (typeof Status)[keyof typeof Status];
 
 /**
  * @category Metadata

@@ -7,7 +7,7 @@ import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
 // Restore Metadata
-import { Tag, CSS, Attributes, Visibility } from "./restore.meta.js";
+import { Tag, CSS, Attributes, Visibility, Status } from "./restore.meta.js";
 
 import { type Meta } from "./restore.meta.js";
 
@@ -63,6 +63,14 @@ export class Restore extends Component implements Meta {
   private _visibility: Visibility = Visibility.VISIBLE;
 
   /**
+   * Internal Status state of the component
+   * @category State
+   * @default Status.RELEASED
+   * @hidden
+   */
+  private _status: Status = Status.RELEASED;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -101,6 +109,15 @@ export class Restore extends Component implements Meta {
         Visibility.VISIBLE
       );
     }
+  }
+
+  /**
+   * Get the status of the restore button: whether it is being pressed.
+   * Only the restore button changes it.
+   * @category State
+   */
+  public get status(): Status {
+    return this._status;
   }
 
   /**
