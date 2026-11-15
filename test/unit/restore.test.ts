@@ -1170,6 +1170,39 @@ events(Event.ON_RESTORE, () => {
               });
             });
 
+            when("`restore.onrestore` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  restore.onrestore = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then(
+                "error message contains 'Invalid onrestore value: invalid'",
+                () => {
+                  expect(error.message).toBe("Invalid onrestore value: invalid");
+                }
+              );
+
+              when("`restore.restore` is invoked", () => {
+                beforeEach(() => {
+                  restore.restore();
+                });
+
+                then("`restore.onrestore` is still called", () => {
+                  expect(onrestore).toHaveBeenCalled();
+                });
+              });
+            });
+
             and("`restore.onrestore` is set to a new listener", () => {
               let onrestore2: jasmine.Spy;
               beforeEach(() => {
