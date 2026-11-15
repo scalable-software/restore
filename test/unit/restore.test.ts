@@ -279,6 +279,19 @@ state(State.VISIBILITY, () => {
               restore.visibility = Visibility.HIDDEN;
             });
 
+            when("`visibility` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  restore.setAttribute(Attributes.VISIBILITY, "invalid");
+                });
+              });
+
+              then("`visibility` attribute is `Visibility.HIDDEN`", () => {
+                const value = restore.getAttribute(Attributes.VISIBILITY);
+                expect(value).toBe(Visibility.HIDDEN);
+              });
+            });
+
             when("`restore.visibility` is set to `null`", () => {
               beforeEach(() => {
                 restore.visibility = null;
