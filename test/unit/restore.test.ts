@@ -726,6 +726,23 @@ operation(Operation.HIDE, () => {
         then("`restore.hide` method exists", () => {
           expect(restore.hide).toBeDefined();
         });
+
+        and("`restore.hide` method exists", () => {
+          when("invoking `restore.hide`", () => {
+            let result: unknown;
+            beforeEach(() => {
+              result = restore.hide();
+            });
+
+            then("`restore.visibility` is `Visibility.HIDDEN`", () => {
+              expect(restore.visibility).toBe(Visibility.HIDDEN);
+            });
+
+            then("`restore.hide` returns nothing", () => {
+              expect(result).toBeUndefined();
+            });
+          });
+        });
       });
     });
   });
