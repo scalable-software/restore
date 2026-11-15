@@ -1550,6 +1550,22 @@ gesture(Gesture.KEYDOWN, () => {
             expect(onrestore).toHaveBeenCalledTimes(1);
           });
         });
+
+        when("user presses `Key.SPACE` on `div` with class `icon`", () => {
+          let onrestore: jasmine.Spy;
+          beforeEach(() => {
+            onrestore = jasmine.createSpy("onrestore");
+            restore.onrestore = onrestore;
+            const icon = restore.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.SPACE })
+            );
+          });
+
+          then("`onrestore` is called once", () => {
+            expect(onrestore).toHaveBeenCalledTimes(1);
+          });
+        });
       });
     });
   });
