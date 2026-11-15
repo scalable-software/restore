@@ -576,6 +576,16 @@ state(State.APPEARANCE, () => {
               const value = restore.getAttribute(Attributes.APPEARANCE);
               expect(value).toBe(Appearance.FLAT);
             });
+
+            when("`restore.appearance` is set to `Appearance.FLOATING`", () => {
+              beforeEach(() => {
+                restore.appearance = Appearance.FLOATING;
+              });
+
+              then("`appearance` attribute does not exist", () => {
+                expect(restore.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
+              });
+            });
           });
 
           and("`restore.appearance` is `Appearance.FLAT`", () => {
