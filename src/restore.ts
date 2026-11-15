@@ -92,6 +92,9 @@ export class Restore extends Component implements Meta {
 
     // Mutate
     this._visibility = visibility;
+
+    // Reflect
+    this._reflect(Attributes.VISIBILITY, this._visibility, Visibility.VISIBLE);
   }
 
   /**
