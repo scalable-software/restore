@@ -1026,6 +1026,17 @@ events(Event.ON_SHOW, () => {
                 restore.onshow = onshow;
               });
 
+              when("`restore.visibility` is set to `Visibility.VISIBLE` twice", () => {
+                beforeEach(() => {
+                  restore.visibility = Visibility.VISIBLE;
+                  restore.visibility = Visibility.VISIBLE;
+                });
+
+                then("`restore.onshow` is called once", () => {
+                  expect(onshow).toHaveBeenCalledTimes(1);
+                });
+              });
+
               when("`restore.visibility` is set to `Visibility.VISIBLE`", () => {
                 beforeEach(() => {
                   restore.visibility = Visibility.VISIBLE;
