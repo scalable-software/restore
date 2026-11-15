@@ -134,7 +134,8 @@ export class Restore extends Component implements Meta {
     }
 
     // Dispatch
-    visibility === Visibility.HIDDEN && this._dispatch(Event.ON_HIDE);
+    const detail = { visibility };
+    visibility === Visibility.HIDDEN && this._dispatch(Event.ON_HIDE, detail);
   }
 
   /**
