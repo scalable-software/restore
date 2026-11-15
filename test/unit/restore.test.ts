@@ -1026,6 +1026,36 @@ events(Event.ON_SHOW, () => {
                 restore.onshow = onshow;
               });
 
+              when("`restore.onshow` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    restore.onshow = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then("error message contains 'Invalid onshow value: invalid'", () => {
+                  expect(error.message).toBe("Invalid onshow value: invalid");
+                });
+
+                when("`restore.visibility` is set to `Visibility.VISIBLE`", () => {
+                  beforeEach(() => {
+                    restore.visibility = Visibility.VISIBLE;
+                  });
+
+                  then("`restore.onshow` is still called", () => {
+                    expect(onshow).toHaveBeenCalled();
+                  });
+                });
+              });
+
               and("`restore.onshow` is set to a new listener", () => {
                 let onshow2: jasmine.Spy;
                 beforeEach(() => {
