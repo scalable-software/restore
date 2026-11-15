@@ -8,7 +8,8 @@ import {
   State,
   Visibility,
   Status,
-  Appearance
+  Appearance,
+  Operation
 } from "@scalable.software/restore";
 
 // Configuration
@@ -699,6 +700,36 @@ state(State.APPEARANCE, () => {
 });
 
 // Operation
+operation(Operation.HIDE, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.hide` method exists", () => {
+          expect(restore.hide).toBeDefined();
+        });
+      });
+    });
+  });
+});
 
 // Event
 
