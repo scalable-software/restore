@@ -573,6 +573,22 @@ state(State.APPEARANCE, () => {
             });
           });
 
+          and("`restore.appearance` is `Appearance.FLAT`", () => {
+            beforeEach(() => {
+              restore.appearance = Appearance.FLAT;
+            });
+
+            when("`restore.appearance` is set to `null`", () => {
+              beforeEach(() => {
+                restore.appearance = null;
+              });
+
+              then("`restore.appearance` is `Appearance.FLOATING`", () => {
+                expect(restore.appearance).toBe(Appearance.FLOATING);
+              });
+            });
+          });
+
           when("`restore.appearance` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
