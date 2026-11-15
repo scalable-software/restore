@@ -9,7 +9,8 @@ import {
   Visibility,
   Status,
   Appearance,
-  Operation
+  Operation,
+  Event
 } from "@scalable.software/restore";
 
 // Configuration
@@ -859,5 +860,35 @@ operation(Operation.RESTORE, () => {
 });
 
 // Event
+events(Event.ON_HIDE, () => {
+  and("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.onhide` setter exists", () => {
+          expect(hasSetter(restore, Event.ON_HIDE)).toBeTrue();
+        });
+      });
+    });
+  });
+});
 
 // Gesture

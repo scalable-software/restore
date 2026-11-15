@@ -263,9 +263,26 @@ metadata(Metadata.EVENT, () => {
       expect(Event).toBeDefined();
     });
 
-    when("Event is defined", () => {
+    and("Event is defined", () => {
       then("Event is an object", () => {
         expect(typeof Event).toBe("object");
+      });
+
+      when("Event is an object", () => {
+        then("no event name is taken by the platform", () => {
+          const taken = Object.values(Event).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual([]);
+        });
+
+        then("`Event.ON_HIDE` exists", () => {
+          expect(Event.ON_HIDE).toBeDefined();
+        });
+
+        then("`Event.ON_HIDE` is `onhide`", () => {
+          expect(Event.ON_HIDE).toBe("onhide");
+        });
       });
     });
   });
