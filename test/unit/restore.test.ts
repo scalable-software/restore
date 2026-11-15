@@ -500,6 +500,23 @@ state(State.STATUS, () => {
         });
       });
 
+      and("a new restore is added to DOM and its icon is pressed", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+          const icon = restore.root.querySelector(".icon") as HTMLElement;
+          icon.dispatchEvent(new PointerEvent(Gesture.POINTERDOWN));
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`status` attribute is `Status.PRESSED`", () => {
+          const value = restore.getAttribute(Attributes.STATUS);
+          expect(value).toBe(Status.PRESSED);
+        });
+      });
+
       and("a new restore with `status` attribute `Status.PRESSED` is added to DOM", () => {
         let restore: Restore;
         beforeEach(() => {
