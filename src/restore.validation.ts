@@ -2,7 +2,7 @@
  * @module Restore
  */
 
-import { Visibility } from "./restore.meta.js";
+import { Visibility, Appearance } from "./restore.meta.js";
 
 /**
  * @category Validation
@@ -19,5 +19,13 @@ export class Validate {
       throw new Error(`Invalid visibility value: ${value}`);
     }
     return value as Visibility;
+  };
+
+  /**
+   * Validates that the value is a member of the `Appearance` enum.
+   * @category Validation
+   */
+  public static appearance = (value: unknown) => {
+    return value as Appearance;
   };
 }
