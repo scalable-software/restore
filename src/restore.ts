@@ -142,7 +142,10 @@ export class Restore extends Component implements Meta {
   public get appearance(): Appearance {
     return this._appearance;
   }
-  public set appearance(appearance: Appearance) {
+  public set appearance(appearance: Appearance | null) {
+    // Normalize
+    appearance = appearance ?? Appearance.FLOATING;
+
     // Validate
     appearance = Validate.appearance(appearance);
 
