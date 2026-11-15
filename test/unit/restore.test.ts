@@ -1026,6 +1026,28 @@ events(Event.ON_SHOW, () => {
                 restore.onshow = onshow;
               });
 
+              and("`restore.onshow` is set to a new listener", () => {
+                let onshow2: jasmine.Spy;
+                beforeEach(() => {
+                  onshow2 = jasmine.createSpy("onshow2");
+                  restore.onshow = onshow2;
+                });
+
+                when("`restore.visibility` is set to `Visibility.VISIBLE`", () => {
+                  beforeEach(() => {
+                    restore.visibility = Visibility.VISIBLE;
+                  });
+
+                  then("old `restore.onshow` is not called", () => {
+                    expect(onshow).not.toHaveBeenCalled();
+                  });
+
+                  then("new `restore.onshow` is called", () => {
+                    expect(onshow2).toHaveBeenCalled();
+                  });
+                });
+              });
+
               when("`restore.visibility` is set to `Visibility.VISIBLE` twice", () => {
                 beforeEach(() => {
                   restore.visibility = Visibility.VISIBLE;
