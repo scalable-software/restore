@@ -59,3 +59,17 @@ const follow = () => followers.forEach((follower) => follower());
 new MutationObserver(follow).observe(restore, { attributes: true });
 
 follow();
+
+/* Events: a log of every event the component sends, oldest first */
+const events = document.querySelector("#events");
+
+restore.onevent = (event) => {
+  const entry = document.createElement("li");
+  const time = new Date().toLocaleTimeString();
+  entry.textContent = `${time} ${event.type} ${JSON.stringify(event.detail)}`;
+  events.append(entry);
+};
+
+document
+  .querySelector("#clear")
+  .addEventListener("click", () => events.replaceChildren());

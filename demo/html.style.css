@@ -90,3 +90,12 @@ button {
 select {
   font: inherit;
 }
+
+.events {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
