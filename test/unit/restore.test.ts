@@ -1324,6 +1324,17 @@ gesture(Gesture.POINTERDOWN, () => {
           then("`restore.status` is `Status.PRESSED`", () => {
             expect(restore.status).toEqual(Status.PRESSED);
           });
+
+          and("user presses the pointer down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = restore.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new PointerEvent(Gesture.POINTERDOWN));
+            });
+
+            then("`restore.status` is `Status.PRESSED`", () => {
+              expect(restore.status).toEqual(Status.PRESSED);
+            });
+          });
         });
       });
     });
