@@ -523,6 +523,29 @@ state(State.STATUS, () => {
           const value = restore.getAttribute(Attributes.STATUS);
           expect(value).toBe(Status.PRESSED);
         });
+
+        when("`status` attribute is set to `Status.RELEASED`", () => {
+          let errors: number;
+          beforeEach(async () => {
+            await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
+              restore.setAttribute(Attributes.STATUS, Status.RELEASED);
+              errors = reported.calls.count();
+            });
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = restore.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`restore.status` is `Status.PRESSED`", () => {
+            expect(restore.status).toBe(Status.PRESSED);
+          });
+
+          then("no error is reported", () => {
+            expect(errors).toBe(0);
+          });
+        });
       });
 
       and("a new restore with `status` attribute `Status.PRESSED` is added to DOM", () => {
