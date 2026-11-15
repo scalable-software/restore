@@ -262,6 +262,16 @@ state(State.VISIBILITY, () => {
               const value = restore.getAttribute(Attributes.VISIBILITY);
               expect(value).toBe(Visibility.HIDDEN);
             });
+
+            when("`restore.visibility` is set to `Visibility.VISIBLE`", () => {
+              beforeEach(() => {
+                restore.visibility = Visibility.VISIBLE;
+              });
+
+              then("`visibility` attribute does not exist", () => {
+                expect(restore.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+              });
+            });
           });
 
           and("`restore.visibility` is `Visibility.HIDDEN`", () => {
