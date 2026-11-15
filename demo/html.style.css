@@ -3,6 +3,8 @@ html {
   height: 100%;
   background-color: var(--background-color);
   color: var(--text-color);
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
 }
 
 body {
@@ -17,6 +19,8 @@ body {
 :root {
   --background-color: #ffffff;
   --text-color: #000000;
+  --stage-color: #f3f3f3;
+  --line-color: #d1d1d1;
 }
 
 /* Dark Mode Styles */
@@ -24,11 +28,26 @@ body {
   :root {
     --background-color: #1e1e1e;
     --text-color: #f0f0f0;
+    --stage-color: #2a2a2a;
+    --line-color: #3c3c3c;
   }
 }
 
-restore-button {
-  position: absolute;
-  left: 48px;
-  top: 48px;
+/* The stage: the component, in a band across the top */
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  background-color: var(--stage-color);
+  border-bottom: 1px solid var(--line-color);
+}
+
+/* The controls: one group for each section of the specification */
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  align-items: stretch;
+  gap: 16px;
+  padding: 16px;
 }
