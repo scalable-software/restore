@@ -1,6 +1,13 @@
 import { Template } from "@scalable.software/component";
 
-import { Restore, Tag, CSS, Attributes } from "@scalable.software/restore";
+import {
+  Restore,
+  Tag,
+  CSS,
+  Attributes,
+  State,
+  Visibility
+} from "@scalable.software/restore";
 
 // Configuration
 configuration(Configuration.TAG, () => {
@@ -200,6 +207,46 @@ composition(Composition.ELEMENT, () => {
 });
 
 // State
+state(State.VISIBILITY, () => {
+  given("Restore is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Restore.Tag, Restore);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Restore.Template.load("restore.template.html");
+      });
+      afterEach(() => {
+        remove(Restore.Tag);
+      });
+
+      and("a new restore is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag);
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.visibility` getter exists", () => {
+          expect(restore.visibility).toBeDefined();
+        });
+
+        when("`restore.visibility` getter exists", () => {
+          then("`restore.visibility` is `Visibility.VISIBLE`", () => {
+            expect(restore.visibility).toBe(Visibility.VISIBLE);
+          });
+        });
+
+        then("`visibility` attribute does not exist", () => {
+          expect(restore.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+        });
+      });
+    });
+  });
+});
 
 // Operation
 
