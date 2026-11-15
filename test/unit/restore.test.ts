@@ -495,6 +495,27 @@ state(State.STATUS, () => {
           });
         });
       });
+
+      and("a new restore with `status` attribute `Status.PRESSED` is added to DOM", () => {
+        let restore: Restore;
+        beforeEach(() => {
+          restore = add<Restore>(Restore.Tag, {
+            [Attributes.STATUS]: Status.PRESSED
+          });
+        });
+        afterEach(() => {
+          restore.remove();
+        });
+
+        then("`restore.status` is `Status.RELEASED`", () => {
+          expect(restore.status).toBe(Status.RELEASED);
+        });
+
+        then("`status` attribute is `Status.RELEASED`", () => {
+          const value = restore.getAttribute(Attributes.STATUS);
+          expect(value).toBe(Status.RELEASED);
+        });
+      });
     });
   });
 });
