@@ -17,7 +17,8 @@
       "class": "icon",
       "attributes": {
         "tabindex": "0",
-        "role": "button"
+        "role": "button",
+        "aria-label": "Restore"
       },
       "contains": ["svg.restore"]
     },
@@ -40,7 +41,7 @@
     },
     "status": {
       "type": "Status",
-      "description": "Indicates whether the control is being pressed. It is 'pressed' from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and 'released' at all other times. Only the component changes it.",
+      "description": "Indicates whether the control is being pressed. It is 'pressed' from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and from the moment Enter or Space goes down on the focused icon until the key is lifted or the icon loses focus. It is 'released' at all other times. Only the component changes it.",
       "values": ["released", "pressed"],
       "default": "released",
       "readonly": true,
@@ -151,12 +152,36 @@
       ]
     },
     "keydown": {
-      "description": "User presses Enter or Space on the focused icon to request restoring.",
+      "description": "User presses Enter or Space on the focused icon: the control becomes pressed, and the page does not scroll.",
       "triggers": [
         {
           "target": "div.icon",
           "condition": "key is Enter or Space",
+          "operation": "_press"
+        }
+      ]
+    },
+    "keyup": {
+      "description": "User lifts Enter or Space on the focused icon: restoring is requested when the control is pressed, and the control becomes released. The triggers act in the order listed.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "condition": "key is Enter or Space, and the control is pressed",
           "operation": "restore"
+        },
+        {
+          "target": "div.icon",
+          "condition": "key is Enter or Space",
+          "operation": "_release"
+        }
+      ]
+    },
+    "blur": {
+      "description": "The icon loses focus while it is pressed: the control becomes released, and no request is made.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "_release"
         }
       ]
     },
