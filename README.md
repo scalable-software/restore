@@ -90,8 +90,8 @@ For more details on **States**, **Operations**, and **Events**, consult the sect
 
 ### 3.1 Composition
 
-- **Template** (`restore.template.html`): Defines DOM structure — a `.icon` container, which can take focus, has the role of a button and is announced as "Restore", holding the SVG icon of two overlapping squares.
-- **Style** (`restore.style.css`): Encapsulates appearance, including the pressed look, the flat appearance, hover effects, and light/dark theme adaptation.
+- **Template** (`restore.template.html`): Defines DOM structure — a `.icon` container, which can take focus, has the role of a button and is announced as "Restore", holding the SVG icon of two overlapping squares. Its one style rule, `:host { display: none; }`, keeps the restore hidden until its stylesheet applies, so the restore is never seen unstyled.
+- **Style** (`restore.style.css`): Encapsulates appearance, including the pressed look, the flat appearance, hover effects, and light/dark theme adaptation. Its rule `:host(:defined) { display: inline-block; }` reveals the restore; a stylesheet that replaces this one must carry that rule, or the restore stays hidden.
 - **Class** (`restore.ts`): Extends the base component class to handle lifecycle hooks, Shadow DOM creation, attribute reflection, and event dispatch.
 
 > **Separation of Concerns**
