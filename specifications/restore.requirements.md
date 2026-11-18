@@ -23,6 +23,7 @@ panel or dialog to be restored, without building and styling that control themse
 - Being announced by name to assistive technology.
 - Standing alone, or sitting flat inside another surface such as a taskbar.
 - Visual feedback on interaction and consistency with the device colour theme.
+- Appearing in its finished look from the moment it is first seen, in any host.
 
 **Out of scope**
 
@@ -76,3 +77,11 @@ without its own border and shadow, so that the taskbar reads as one surface.
 As an **end user** who works with the keyboard or a screen reader, I want the control to be
 announced by what it does, and to look and act under the keyboard as it does under the
 pointer, so that I can use it with the same confidence.
+
+### STORY: Clean First Appearance
+
+As an **end user**, when a page with the control opens, I want the control to appear in its
+finished look at once, so that the interface looks steady instead of flickering into place.
+
+As a **host application**, I want the control to appear finished without my adding anything for
+it, so that I can place it on any page and the page does not jump while it loads.
