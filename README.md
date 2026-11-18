@@ -272,6 +272,12 @@ The host then loads the template and defines the component:
 </script>
 ```
 
+The metadata (the tag, the attributes, the states, the events and the other names) is also importable on its own, as `@scalable.software/restore/meta`. It loads without the element, so a consumer outside the browser, such as Node, can `import` or `require()` it without a DOM:
+
+```js
+import { Tag, Attributes } from "@scalable.software/restore/meta";
+```
+
 ---
 
 ## License
